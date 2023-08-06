@@ -36,12 +36,6 @@ The coding conventions and style are enforced by the [tslint](https://palantir.g
 
 To check linting error in command line, run `yarn lint`.
 
-### Storybook
-To run the storybook:
-```bash
-yarn storybook
-```
-
 ## Architectures
 
 _TODO_
