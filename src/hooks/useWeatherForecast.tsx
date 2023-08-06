@@ -27,10 +27,11 @@ type Response = {
 };
 
 type Forecast = {
-  dt: Date;
+  dt: number;
+  date: Date;
   sunrise: Date;
   sunset: Date;
-  temp: number;
+  temp: Temperature;
   feels_like: number;
   pressure: number;
   humidity: number;
@@ -42,6 +43,15 @@ type Forecast = {
   wind_deg: number;
   wind_gust: number;
   weather: Weather[];
+};
+
+type Temperature = {
+  day: number;
+  min: number;
+  max: number;
+  night: number;
+  eve: number;
+  morn: number;
 };
 
 type Weather = {
@@ -170,9 +180,14 @@ const ICONS: Record<WeatherId, string> = {
 export const useWeatherForecast = () => {
   const [latitude, longitude] = config.LOCATION.split(",");
 
-  const { data, error } = useFetch<Response>(
-    `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${config.OPENWEATHERMAP_API_KEY}`
-  );
+  const url = new URL("https://api.openweathermap.org/data/3.0/onecall");
+  url.searchParams.append("lat", latitude);
+  url.searchParams.append("lon", longitude);
+  url.searchParams.append("units", "metric");
+  url.searchParams.append("exclude", "minutely,hourly,alerts");
+  url.searchParams.append("appid", config.OPENWEATHERMAP_API_KEY);
+
+  const { data, error } = useFetch<Response>(url.href);
 
   if (error) {
     console.error(error);
@@ -181,12 +196,12 @@ export const useWeatherForecast = () => {
   if (data) {
     data.current.weather.forEach(w => (w.icon = ICONS[w.id]));
 
+    data.daily.forEach(d => (d.date = new Date(d.dt * 1000)));
+
     data.daily
       .map(d => d.weather)
       .flat()
       .forEach(w => (w.icon = ICONS[w.id]));
-
-    console.log(data);
   }
 
   return data;

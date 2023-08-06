@@ -11,7 +11,7 @@ export enum RoutePaths {
 export const App = () => (
   <Routes>
     <Route path={RoutePaths.Home} element={<Layout />}>
-      <Route element={<Home />} />
+      <Route index element={<Home />} />
       <Route path={RoutePaths.Ups} element={<Ups />} />
     </Route>
   </Routes>

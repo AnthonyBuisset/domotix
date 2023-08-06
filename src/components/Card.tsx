@@ -1,12 +1,14 @@
+import classNames from "classnames";
 import { PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
-  title: string;
+  title?: string;
+  className?: string;
 }
 
-export const Card = ({ title, children }: Props) => (
-  <div className="flex h-fit w-fit flex-col gap-8 rounded-lg bg-white/5 p-4 shadow backdrop-blur-lg">
-    <div className="text-lg font-medium text-slate-200">{title}</div>
+export const Card = ({ title, className, children }: Props) => (
+  <div className={classNames("h-fit w-fit rounded-lg bg-white/5 p-4 shadow backdrop-blur-lg", className)}>
+    {title && <div className="text-lg font-medium text-slate-200">{title}</div>}
     {children}
   </div>
 );

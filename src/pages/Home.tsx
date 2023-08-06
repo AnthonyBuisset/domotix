@@ -1,5 +1,9 @@
-import { Background } from "../components/Background";
+import { WeatherForecast } from "../components/WeatherForecast";
 
 export const Home = () => {
-  return <Background></Background>;
+  return (
+    <div className="p-2">
+      <WeatherForecast />
+    </div>
+  );
 };
