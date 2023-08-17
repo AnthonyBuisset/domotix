@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
-import { Menu } from "./Menu";
+import { Navigation } from "./Navigation";
 import { Background } from "../Background";
+import { DarkThemeToggle, Flowbite } from "flowbite-react";
 
 export const Layout = () => {
   return (
-    <Background>
-      <div className="flex">
-        <Menu />
+    <Flowbite>
+      <DarkThemeToggle className="fixed right-4 top-4 z-50 h-10 w-10" />
+      <Background>
         <Outlet />
-      </div>
-    </Background>
+        <Navigation />
+      </Background>
+    </Flowbite>
   );
 };
