@@ -7,7 +7,7 @@ export const Ups = () => {
   const Esp32Topic = "ESP32/UPS15W-1";
 
   return (
-    <div className="m-2 grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2 p-2">
       <Card title="Input">
         <Gauge type={Type.Voltage5} label="USB" topic={Esp32Topic} valuePath="$.Vusb" />
         <Gauge type={Type.Voltage5} label="Batterie" topic={Esp32Topic} valuePath="$.Vbatt" />
