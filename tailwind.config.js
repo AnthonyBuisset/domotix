@@ -1,11 +1,10 @@
-import flowbite from "flowbite/plugin";
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       textColor: theme => ({
+        secondary: theme("colors.zinc.500"),
         "accent-primary": theme("colors.blue.500"),
       }),
       boxShadow: {
@@ -16,5 +15,5 @@ export default {
       },
     },
   },
-  plugins: [flowbite],
+  plugins: [import("flowbite/plugin")],
 };

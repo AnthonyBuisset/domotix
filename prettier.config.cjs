@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   arrowParens: "avoid",
   bracketSpacing: true,
   endOfLine: "auto",
@@ -7,5 +7,5 @@ module.exports = {
   semi: true,
   singleQuote: false,
   printWidth: 120,
-  plugins: [import("prettier-plugin-tailwindcss")],
+  plugins: ["prettier-plugin-tailwindcss"],
 };
