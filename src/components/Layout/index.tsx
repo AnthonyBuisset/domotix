@@ -5,8 +5,10 @@ import { Background } from "../Background";
 export const Layout = () => {
   return (
     <Background>
-      <Outlet />
-      <Navigation />
+      <div className="border-gray-200 text-gray-500 dark:border-gray-600  dark:text-gray-400">
+        <Outlet />
+        <Navigation />
+      </div>
     </Background>
   );
 };
