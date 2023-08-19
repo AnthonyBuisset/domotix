@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "flowbite";
 import { Connector } from "mqtt-react-hooks";
 
 import config from "./config.ts";
