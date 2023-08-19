@@ -2,7 +2,7 @@ import { WeatherForecast } from "../components/WeatherForecast";
 import { useNow } from "../hooks/useNow";
 import { useWeatherForecast } from "../hooks/useWeatherForecast";
 
-export const Home = () => {
+export const Weather = () => {
   return (
     <div className="flex flex-col items-center gap-8 p-2">
       <Clock />

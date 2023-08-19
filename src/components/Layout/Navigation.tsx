@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { RiHome4Fill, RiHotelBedFill, RiPlugFill } from "react-icons/ri";
+import { RiEqualizerFill, RiPlugFill, RiSunFill } from "react-icons/ri";
 import { RoutePaths } from "../../App";
 import { PropsWithChildren } from "react";
 import classNames from "classnames";
@@ -8,17 +8,17 @@ export const Navigation = () => {
   return (
     <div className="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
       <div className="mx-auto grid h-full max-w-lg grid-cols-3 font-medium">
-        <Item to={RoutePaths.Home}>
-          <RiHome4Fill className="mb-2 h-6 w-6" />
-          Accueil
+        <Item to={RoutePaths.Weather}>
+          <RiSunFill className="mb-2 h-6 w-6" />
+          Météo
         </Item>
-        <Item to={RoutePaths.Bedroom}>
-          <RiHotelBedFill className="mb-2 h-6 w-6" />
-          Chambre
+        <Item to={RoutePaths.Controls}>
+          <RiEqualizerFill className="mb-2 h-6 w-6" />
+          Contrôles
         </Item>
-        <Item to={RoutePaths.Ups}>
+        <Item to={RoutePaths.Power}>
           <RiPlugFill className="mb-2 h-6 w-6" />
-          UPS
+          Alimentation
         </Item>
       </div>
     </div>
