@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { RiEqualizerFill, RiPlugFill, RiSunFill } from "react-icons/ri";
 import { RoutePaths } from "../../App";
 import { PropsWithChildren } from "react";
-import classNames from "classnames";
 
 export const Navigation = () => {
   return (
@@ -30,10 +29,7 @@ type ItemProps = {
 } & PropsWithChildren;
 
 const Item = ({ to, children }: ItemProps) => (
-  <button
-    type="button"
-    className={classNames("hover:bg-gray-50 hover:text-accent-primary", "dark:hover:bg-gray-800  ")}
-  >
+  <button type="button" className="hover:bg-gray-50 hover:text-accent-primary dark:hover:bg-gray-800">
     <Link to={to} className="inline-flex flex-col items-center justify-center px-5 text-sm">
       {children}
     </Link>
