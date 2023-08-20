@@ -5,7 +5,7 @@ import { PropsWithChildren } from "react";
 
 export const Navigation = () => {
   return (
-    <div className="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
+    <div className="z-50 h-16 w-full border-t border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
       <div className="mx-auto grid h-full max-w-lg grid-cols-3 font-medium">
         <Item to={RoutePaths.Weather}>
           <RiSunFill className="mb-2 h-6 w-6" />
