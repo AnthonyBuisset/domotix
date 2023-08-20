@@ -7,10 +7,8 @@ interface Props extends PropsWithChildren {
 }
 
 export const Card = ({ title, className, children }: Props) => (
-  <View className="h-fit">
-    <div className={className}>
-      {title && <h1>{title}</h1>}
-      {children}
-    </div>
+  <View className={className}>
+    {title && <h1 className="mb-2 self-start text-xl font-medium text-black dark:text-gray-200">{title}</h1>}
+    <div className="h-full">{children}</div>
   </View>
 );

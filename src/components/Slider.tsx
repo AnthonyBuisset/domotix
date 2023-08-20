@@ -1,15 +1,20 @@
-export function Slider() {
+import { RangeSlider } from "flowbite-react";
+import { ReactElement, useState } from "react";
+
+type Props = {
+  offIcon: ReactElement;
+  onIcon: ReactElement;
+};
+
+export function Slider({ offIcon, onIcon }: Props) {
+  const [value, setValue] = useState(50);
+
   return (
-    <>
-      <label htmlFor="default-range" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-        Default range
-      </label>
-      <input
-        id="default-range"
-        type="range"
-        value="50"
-        className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
-      />
-    </>
+    <div className="flex w-full flex-row items-center gap-4">
+      <div className="cursor-pointer" onClick={() => setValue(value ? 0 : 100)}>
+        {value ? onIcon : offIcon}
+      </div>
+      <RangeSlider className="w-full" value={value} onChange={({ target }) => setValue(parseInt(target.value))} />{" "}
+    </div>
   );
 }

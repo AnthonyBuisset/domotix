@@ -85,7 +85,7 @@ const Item = ({ name, icon, to }: ItemProps) => {
 
   return (
     <Link to={to}>
-      <Base.Item icon={icon} active={location.pathname === to}>
+      <Base.Item as="div" icon={icon} active={location.pathname === to}>
         <p>{name}</p>
       </Base.Item>
     </Link>
