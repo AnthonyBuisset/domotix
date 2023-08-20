@@ -6,29 +6,49 @@ import { ControlsRoutePaths } from "../../App";
 import { Sidebar as Base } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { IconType } from "react-icons";
+import { useEffect, useState } from "react";
+import { useScreen } from "../../hooks/useScreen";
+import classNames from "classnames";
 
-export const Sidebar = () => (
-  <>
-    <Button />
-    <Base>
-      <Clock />
-      <Base.Items>
-        <Base.ItemGroup>
-          <Item name="Chambres" icon={RiHotelBedFill} to={ControlsRoutePaths.Bedrooms} />
-          <Item name="Salle de bain" icon={BiSolidBath} to={ControlsRoutePaths.Bathroom} />
-        </Base.ItemGroup>
-      </Base.Items>
-    </Base>
-  </>
-);
+export const Sidebar = () => {
+  const location = useLocation();
+  const { sm } = useScreen();
+  const [visible, setVisible] = useState(false);
+  useEffect(() => setVisible(false), [location.pathname]);
 
-const Button = () => (
+  return (
+    <>
+      {visible || sm ? (
+        <Base className={classNames({ fixed: !sm }, "w-full shrink-0 sm:w-60")}>
+          <Button onClick={() => setVisible(!visible)} />
+          <Clock />
+          <Base.Items>
+            <Base.ItemGroup>
+              <Item name="Chambres" icon={RiHotelBedFill} to={ControlsRoutePaths.Bedrooms} />
+              <Item name="Salle de bain" icon={BiSolidBath} to={ControlsRoutePaths.Bathroom} />
+            </Base.ItemGroup>
+          </Base.Items>
+        </Base>
+      ) : (
+        <Button className="ml-3 mt-4 w-fit self-start" onClick={() => setVisible(!visible)} />
+      )}
+    </>
+  );
+};
+
+type ButtonProps = {
+  onClick: () => void;
+  className?: string;
+};
+
+const Button = ({ onClick, className }: ButtonProps) => (
   <button
-    data-drawer-target="controls-sidebar"
-    data-drawer-toggle="controls-sidebar"
-    aria-controls="controls-sidebar"
     type="button"
-    className="ml-3 mt-2 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
+    className={classNames(
+      className,
+      "inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
+    )}
+    onClick={onClick}
   >
     <span className="sr-only">Open sidebar</span>
     <RiMenuFill className="h-6 w-6" />

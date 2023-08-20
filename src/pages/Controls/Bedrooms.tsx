@@ -3,7 +3,7 @@ import { Slider } from "../../components/Slider";
 import { TempSensor } from "../../components/TempSensor";
 
 export const Bedrooms = () => (
-  <div className="flex gap-2 p-2">
+  <div className="flex w-full flex-col gap-2 p-2 sm:flex-row">
     <Card title="Chambre parentale">
       <TempSensor />
       <Slider />
