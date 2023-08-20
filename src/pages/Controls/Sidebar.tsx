@@ -1,31 +1,25 @@
 import { RiHotelBedFill, RiMenuFill } from "react-icons/ri";
 import { useWeatherForecast } from "../../hooks/useWeatherForecast";
 import { useNow } from "../../hooks/useNow";
-import { Link } from "react-router-dom";
 import { ControlsRoutePaths } from "../../App";
+import { Sidebar as Base } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 export const Sidebar = () => (
   <>
     <Button />
-    <aside
-      id="controls-sidebar"
-      className="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
-      aria-label="Sidebar"
-    >
-      <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
-        <Clock />
-        <ul className="space-y-2 font-medium">
-          <li>
-            <Link to={ControlsRoutePaths.Bedrooms}>
-              <div className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                <RiHotelBedFill />
-                <span className="ml-3">Chambres</span>
-              </div>
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </aside>
+    <Base>
+      <Clock />
+      <Base.Items>
+        <Base.ItemGroup>
+          <Link to={ControlsRoutePaths.Bedrooms}>
+            <Base.Item icon={RiHotelBedFill}>
+              <p>Chambres</p>
+            </Base.Item>
+          </Link>
+        </Base.ItemGroup>
+      </Base.Items>
+    </Base>
   </>
 );
 
