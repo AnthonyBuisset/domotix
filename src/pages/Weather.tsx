@@ -17,7 +17,7 @@ const Clock = () => {
 
   return (
     <div className="my-2 flex flex-col items-center gap-1">
-      {forecast && <img src={forecast?.current.weather[0].icon} className="w-20" />}
+      {forecast ? <img src={forecast?.current.weather[0].icon} className="w-20" /> : <div className="h-20" />}
       <div>
         {weekday} {date}
       </div>

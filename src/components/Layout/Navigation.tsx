@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RiEqualizerFill, RiPlugFill, RiSunFill } from "react-icons/ri";
 import { RoutePaths } from "../../App";
 import { PropsWithChildren } from "react";
+import classNames from "classnames";
 
 export const Navigation = () => {
   return (
@@ -28,10 +29,19 @@ type ItemProps = {
   to: RoutePaths;
 } & PropsWithChildren;
 
-const Item = ({ to, children }: ItemProps) => (
-  <button type="button" className="hover:bg-gray-50 hover:text-accent-primary dark:hover:bg-gray-800">
-    <Link to={to} className="inline-flex flex-col items-center justify-center px-5 text-sm">
-      {children}
-    </Link>
-  </button>
-);
+const Item = ({ to, children }: ItemProps) => {
+  const location = useLocation();
+
+  return (
+    <button
+      type="button"
+      className={classNames("hover:bg-gray-50 hover:text-accent-primary dark:hover:bg-gray-800", {
+        "bg-gray-50 dark:bg-gray-800": location.pathname.includes(to),
+      })}
+    >
+      <Link to={to} className="inline-flex flex-col items-center justify-center px-5 text-sm">
+        {children}
+      </Link>
+    </button>
+  );
+};

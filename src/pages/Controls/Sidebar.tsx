@@ -1,9 +1,11 @@
 import { RiHotelBedFill, RiMenuFill } from "react-icons/ri";
+import { BiSolidBath } from "react-icons/bi";
 import { useWeatherForecast } from "../../hooks/useWeatherForecast";
 import { useNow } from "../../hooks/useNow";
 import { ControlsRoutePaths } from "../../App";
 import { Sidebar as Base } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { IconType } from "react-icons";
 
 export const Sidebar = () => (
   <>
@@ -12,11 +14,8 @@ export const Sidebar = () => (
       <Clock />
       <Base.Items>
         <Base.ItemGroup>
-          <Link to={ControlsRoutePaths.Bedrooms}>
-            <Base.Item icon={RiHotelBedFill}>
-              <p>Chambres</p>
-            </Base.Item>
-          </Link>
+          <Item name="Chambres" icon={RiHotelBedFill} to={ControlsRoutePaths.Bedrooms} />
+          <Item name="Salle de bain" icon={BiSolidBath} to={ControlsRoutePaths.Bathroom} />
         </Base.ItemGroup>
       </Base.Items>
     </Base>
@@ -42,7 +41,7 @@ const Clock = () => {
 
   return (
     <div className="mb-12 mt-2 flex flex-col items-center gap-1">
-      {forecast && <img src={forecast?.current.weather[0].icon} className="w-20" />}
+      {forecast ? <img src={forecast?.current.weather[0].icon} className="w-20" /> : <div className="h-20" />}
       <div>
         {weekday} {date}
       </div>
@@ -52,5 +51,23 @@ const Clock = () => {
         <div className="text-2xl text-secondary">{seconds}</div>
       </div>
     </div>
+  );
+};
+
+type ItemProps = {
+  name: string;
+  icon: IconType;
+  to: string;
+};
+
+const Item = ({ name, icon, to }: ItemProps) => {
+  const location = useLocation();
+
+  return (
+    <Link to={to}>
+      <Base.Item icon={icon} active={location.pathname === to}>
+        <p>{name}</p>
+      </Base.Item>
+    </Link>
   );
 };
