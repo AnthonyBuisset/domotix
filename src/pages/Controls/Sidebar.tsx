@@ -4,7 +4,7 @@ import { useWeatherForecast } from "../../hooks/useWeatherForecast";
 import { useNow } from "../../hooks/useNow";
 import { ControlsRoutePaths } from "../../App";
 import { Sidebar as Base } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { IconType } from "react-icons";
 import { useEffect, useState } from "react";
 import { useScreen } from "../../hooks/useScreen";
@@ -80,14 +80,12 @@ type ItemProps = {
   to: string;
 };
 
-const Item = ({ name, icon, to }: ItemProps) => {
-  const location = useLocation();
-
-  return (
-    <Link to={to}>
-      <Base.Item as="div" icon={icon} active={location.pathname === to}>
+const Item = ({ name, icon, to }: ItemProps) => (
+  <NavLink to={to}>
+    {({ isActive }) => (
+      <Base.Item as="div" icon={icon} active={isActive}>
         <p>{name}</p>
       </Base.Item>
-    </Link>
-  );
-};
+    )}
+  </NavLink>
+);
