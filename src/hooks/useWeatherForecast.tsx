@@ -17,6 +17,7 @@ import cloudy from "/assets/weather-icons/fill/cloudy.svg";
 import overcast from "/assets/weather-icons/fill/overcast.svg";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { useEffectOnce } from "usehooks-ts";
+import { useAlert } from "./useAlert";
 
 type Response = {
   lat: number;
@@ -184,9 +185,16 @@ const WeatherForecastContext = createContext<WeatherForecast | null>(null);
 
 export const WeatherForecastProvider = ({ children }: PropsWithChildren) => {
   const [data, setData] = useState<Response | null>(null);
+  const { alert } = useAlert();
 
   useEffectOnce(() => {
-    const refresh = () => fetchData().then(setData);
+    const refresh = () =>
+      fetchData()
+        .then(setData)
+        .catch(e => {
+          alert("Erreur durant la mise à jour des prévisions météo");
+          console.error(e);
+        });
     refresh();
     const interval = setInterval(refresh, 3_600_000);
     return () => clearInterval(interval);
