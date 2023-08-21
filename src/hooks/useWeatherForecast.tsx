@@ -1,4 +1,3 @@
-import { useFetch } from "usehooks-ts";
 import config from "../config";
 import clearDay from "/assets/weather-icons/fill/clear-day.svg";
 import drizzle from "/assets/weather-icons/fill/drizzle.svg";
@@ -16,7 +15,8 @@ import fog from "/assets/weather-icons/fill/fog.svg";
 import tornado from "/assets/weather-icons/fill/tornado.svg";
 import cloudy from "/assets/weather-icons/fill/cloudy.svg";
 import overcast from "/assets/weather-icons/fill/overcast.svg";
-import { PropsWithChildren, createContext, useContext } from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { useEffectOnce } from "usehooks-ts";
 
 type Response = {
   lat: number;
@@ -183,6 +183,23 @@ type WeatherForecast = Response;
 const WeatherForecastContext = createContext<WeatherForecast | null>(null);
 
 export const WeatherForecastProvider = ({ children }: PropsWithChildren) => {
+  const [data, setData] = useState<Response | null>(null);
+
+  useEffectOnce(() => {
+    const refresh = () => fetchData().then(setData);
+    refresh();
+    const interval = setInterval(refresh, 3_600_000);
+    return () => clearInterval(interval);
+  });
+
+  return <WeatherForecastContext.Provider value={data}>{children}</WeatherForecastContext.Provider>;
+};
+
+export const useWeatherForecast = () => {
+  return useContext(WeatherForecastContext);
+};
+
+const fetchData = async (): Promise<Response> => {
   const [latitude, longitude] = config.LOCATION.split(",");
 
   const url = new URL("https://api.openweathermap.org/data/3.0/onecall");
@@ -192,26 +209,16 @@ export const WeatherForecastProvider = ({ children }: PropsWithChildren) => {
   url.searchParams.append("exclude", "minutely,hourly,alerts");
   url.searchParams.append("appid", config.OPENWEATHERMAP_API_KEY);
 
-  const { data, error } = useFetch<Response>(url.href);
+  const data: Response = await fetch(url.href).then(response => response.json());
 
-  if (error) {
-    console.error(error);
-  }
+  data.current.weather.forEach(w => (w.icon = ICONS[w.id]));
 
-  if (data) {
-    data.current.weather.forEach(w => (w.icon = ICONS[w.id]));
+  data.daily.forEach(d => (d.date = new Date(d.dt * 1000)));
 
-    data.daily.forEach(d => (d.date = new Date(d.dt * 1000)));
+  data.daily
+    .map(d => d.weather)
+    .flat()
+    .forEach(w => (w.icon = ICONS[w.id]));
 
-    data.daily
-      .map(d => d.weather)
-      .flat()
-      .forEach(w => (w.icon = ICONS[w.id]));
-  }
-
-  return <WeatherForecastContext.Provider value={data ?? null}>{children}</WeatherForecastContext.Provider>;
-};
-
-export const useWeatherForecast = () => {
-  return useContext(WeatherForecastContext);
+  return data;
 };
