@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import { Transition } from "@headlessui/react";
 import { Alert as View } from "flowbite-react";
 import { PropsWithChildren, createContext, useCallback, useContext, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
@@ -22,13 +22,20 @@ export const AlertProvider = ({ children }: PropsWithChildren) => {
   return (
     <AlertContext.Provider value={{ alert }}>
       {children}
-      <View
-        className={classNames("fixed bottom-4 right-4 z-50", { hidden: !visible })}
-        color="failure"
-        icon={HiInformationCircle}
+      <Transition
+        className="fixed bottom-4 right-4 z-50"
+        show={visible}
+        enter="transition-transform duration-300"
+        enterFrom="translate-y-10"
+        enterTo="translate-y-0"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
       >
-        <p>{message}</p>
-      </View>
+        <View color="failure" icon={HiInformationCircle}>
+          <p>{message}</p>
+        </View>
+      </Transition>
     </AlertContext.Provider>
   );
 };
