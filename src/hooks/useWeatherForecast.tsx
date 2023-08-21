@@ -16,6 +16,7 @@ import fog from "/assets/weather-icons/fill/fog.svg";
 import tornado from "/assets/weather-icons/fill/tornado.svg";
 import cloudy from "/assets/weather-icons/fill/cloudy.svg";
 import overcast from "/assets/weather-icons/fill/overcast.svg";
+import { PropsWithChildren, createContext, useContext } from "react";
 
 type Response = {
   lat: number;
@@ -177,7 +178,11 @@ const ICONS: Record<WeatherId, string> = {
   [WeatherId.OvercastClouds]: overcast,
 };
 
-export const useWeatherForecast = () => {
+type WeatherForecast = Response;
+
+const WeatherForecastContext = createContext<WeatherForecast | null>(null);
+
+export const WeatherForecastProvider = ({ children }: PropsWithChildren) => {
   const [latitude, longitude] = config.LOCATION.split(",");
 
   const url = new URL("https://api.openweathermap.org/data/3.0/onecall");
@@ -204,5 +209,9 @@ export const useWeatherForecast = () => {
       .forEach(w => (w.icon = ICONS[w.id]));
   }
 
-  return data;
+  return <WeatherForecastContext.Provider value={data ?? null}>{children}</WeatherForecastContext.Provider>;
+};
+
+export const useWeatherForecast = () => {
+  return useContext(WeatherForecastContext);
 };
