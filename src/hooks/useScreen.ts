@@ -1,8 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import { useMediaQuery } from "usehooks-ts";
 
-console.log(defaultTheme.screens);
-
 export const useScreen = () => ({
   sm: useMediaQuery(`(min-width: ${defaultTheme.screens.sm})`),
   md: useMediaQuery(`(min-width: ${defaultTheme.screens.md})`),
