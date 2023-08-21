@@ -4,7 +4,6 @@ import { isDefined } from "../../utils";
 
 export enum Type {
   CpuTemperature,
-  WeatherTemperature,
   Decibels,
   Voltage5,
   Intensity,

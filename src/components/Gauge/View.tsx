@@ -1,5 +1,8 @@
-import GaugeChart from "react-gauge-chart";
+import classNames from "classnames";
 import { Type } from ".";
+import { FaPowerOff, FaThermometerHalf, FaWifi } from "react-icons/fa";
+import { BsLightningChargeFill } from "react-icons/bs";
+import { ReactElement } from "react";
 
 type Props = {
   type: Type;
@@ -7,79 +10,83 @@ type Props = {
   value: number;
 };
 
+enum Color {
+  Cyan,
+  Green,
+  Orange,
+  Red,
+}
+
 type GaugeSettings = {
   min: number;
   max: number;
-  colors: string[];
   unit: string;
+  color: Color;
+  icon: ReactElement;
 };
 
-const NEEDLE_COLOR = "#64748b";
-
 export const View = ({ type, value, label }: Props) => {
-  const { min, max, colors, unit } = gaugeSettings(type);
+  const { min, max, unit, color, icon } = gaugeSettings(type, value);
+
+  const percent = Math.max(Math.min((100 * (value - min)) / (max - min), 100), 0);
 
   return (
-    <div className="flex w-fit flex-col items-center gap-1">
-      <GaugeChart
-        colors={colors}
-        needleColor={NEEDLE_COLOR}
-        needleBaseColor={NEEDLE_COLOR}
-        nrOfLevels={30}
-        arcPadding={0.01}
-        percent={(value - min) / (max - min)}
-        arcWidth={0.15}
-        textColor="#d6d3d1"
-        fontSize="22"
-        formatTextValue={() => `${value}${unit}`}
-        marginInPercent={0.01}
-        animate={false}
-      />
-      <div className="flex w-full flex-row justify-between px-2 text-lg">
-        <div>{`${min}${unit}`}</div>
-        <div>{label}</div>
-        <div>{`${max}${unit}`}</div>
+    <div className="flex w-full items-center justify-end gap-2">
+      {icon}
+      {label && <p>{label}</p>}
+      <div className={classNames("relative h-2.5 w-72 rounded-full bg-gray-200 dark:bg-gray-600")}>
+        <div
+          className={classNames("absolute inset-y-0 left-0 rounded-l-full", {
+            "rounded-r-full": percent === 100,
+            "bg-cyan-500": color === Color.Cyan,
+            "bg-emerald-500": color === Color.Green,
+            "bg-orange-400": color === Color.Orange,
+            "bg-red-500": color === Color.Red,
+          })}
+          style={{ width: `${percent}%` }}
+        />
       </div>
+      <p className="w-12 whitespace-nowrap">
+        {value}
+        {unit}
+      </p>
     </div>
   );
 };
 
-const gaugeSettings = (type: Type): GaugeSettings => {
+const gaugeSettings = (type: Type, value: number): GaugeSettings => {
   switch (type) {
     case Type.CpuTemperature:
       return {
         min: 40,
         max: 80,
-        colors: ["#6ee7b7", "#ef4444"],
         unit: "°C",
-      };
-    case Type.WeatherTemperature:
-      return {
-        min: -10,
-        max: 50,
-        colors: ["#6ee7b7", "#ef4444"],
-        unit: "°C",
+        color: value < 50 ? Color.Cyan : value < 55 ? Color.Green : value < 70 ? Color.Orange : Color.Red,
+        icon: <FaThermometerHalf />,
       };
     case Type.Voltage5:
       return {
         min: 0,
         max: 6,
-        colors: ["#4ade80"],
         unit: " V",
+        color: value < 4 ? Color.Red : value < 4.5 ? Color.Orange : Color.Green,
+        icon: <BsLightningChargeFill />,
       };
     case Type.Intensity:
       return {
         min: 0,
         max: 5,
-        colors: ["#4ade80"],
         unit: " A",
+        color: value < 4 ? Color.Red : value < 3 ? Color.Orange : Color.Green,
+        icon: <FaPowerOff />,
       };
     case Type.Decibels:
       return {
         min: -120,
         max: 0,
-        colors: ["#4ade80"],
         unit: " dB",
+        color: value < -80 ? Color.Red : value < -60 ? Color.Orange : Color.Green,
+        icon: <FaWifi />,
       };
   }
 };
