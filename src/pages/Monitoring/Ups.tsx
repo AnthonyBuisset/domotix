@@ -1,7 +1,7 @@
-import { Card } from "../components/Card";
-import { Color, Led } from "../components/Led";
-import { Gauge, Type } from "../components/Gauge";
-import { Button } from "../components/Button";
+import { Card } from "../../components/Card";
+import { Color, Led } from "../../components/Led";
+import { Gauge, Type } from "../../components/Gauge";
+import { Button } from "../../components/Button";
 
 export const Ups = () => {
   const Esp32Topic = "ESP32/UPS15W-1";

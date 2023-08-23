@@ -1,14 +1,12 @@
-import { RiHotelBedFill, RiMenuFill } from "react-icons/ri";
-import { BiSolidBath } from "react-icons/bi";
-import { useWeatherForecast } from "../../hooks/useWeatherForecast";
-import { useNow } from "../../hooks/useNow";
-import { ControlsRoutePaths } from "../../App";
+import { RiMenuFill, RiPlugFill } from "react-icons/ri";
+import { MonitoringRoutePaths } from "../../App";
 import { Sidebar as Base } from "flowbite-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { IconType } from "react-icons";
 import { useEffect, useState } from "react";
 import { useScreen } from "../../hooks/useScreen";
 import classNames from "classnames";
+import { FaRaspberryPi } from "react-icons/fa";
 
 export const Sidebar = () => {
   const location = useLocation();
@@ -21,11 +19,10 @@ export const Sidebar = () => {
       {visible || sm ? (
         <Base className={classNames({ fixed: !sm }, "w-full shrink-0 sm:w-60")}>
           <Button onClick={() => setVisible(!visible)} />
-          <Clock />
           <Base.Items>
             <Base.ItemGroup>
-              <Item name="Chambres" icon={RiHotelBedFill} to={ControlsRoutePaths.Bedrooms} />
-              <Item name="Salle de bain" icon={BiSolidBath} to={ControlsRoutePaths.Bathroom} />
+              <Item name="Raspberry Pi" icon={FaRaspberryPi} to={MonitoringRoutePaths.RaspberryPi} />
+              <Item name="Ups" icon={RiPlugFill} to={MonitoringRoutePaths.Ups} />
             </Base.ItemGroup>
           </Base.Items>
         </Base>
@@ -54,25 +51,6 @@ const Button = ({ onClick, className }: ButtonProps) => (
     <RiMenuFill className="h-6 w-6" />
   </button>
 );
-
-const Clock = () => {
-  const { weekday, date, hours, minutes, seconds } = useNow();
-  const forecast = useWeatherForecast();
-
-  return (
-    <div className="mb-12 mt-2 flex flex-col items-center gap-1">
-      {forecast ? <img src={forecast?.current.weather[0].icon} className="w-20" /> : <div className="h-20" />}
-      <div>
-        {weekday} {date}
-      </div>
-      <div className="flex items-end gap-1">
-        <div className="text-4xl font-semibold">{hours}</div>
-        <div className="text-2xl">{minutes}</div>
-        <div className="text-2xl text-secondary">{seconds}</div>
-      </div>
-    </div>
-  );
-};
 
 type ItemProps = {
   name: string;

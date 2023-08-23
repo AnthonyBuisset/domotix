@@ -6,7 +6,7 @@ import { THB } from "../../components/THB";
 import { ToggleSwitch } from "../../components/ToggleSwitch";
 import { Open as ShutterOpen, Closed as ShutterClosed } from "../../icons/Shutters";
 
-export const Bedrooms = () => (
+export const Indoor = () => (
   <div className="flex h-fit w-full grid-cols-2 flex-col gap-2 p-2 sm:grid">
     <Card title="Chambre parentale" className="row-span-2">
       <div className="flex flex-col gap-4">

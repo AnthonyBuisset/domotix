@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { RiEqualizerFill, RiPlugFill, RiSunFill } from "react-icons/ri";
+import { RiSunFill } from "react-icons/ri";
+import { SiHomeassistant } from "react-icons/si";
 import { RoutePaths } from "../../App";
 import { PropsWithChildren } from "react";
 import classNames from "classnames";
+import { BsGraphUp } from "react-icons/bs";
 
 export const Navigation = () => {
   return (
@@ -12,13 +14,13 @@ export const Navigation = () => {
           <RiSunFill className="mb-2 h-6 w-6" />
           <p>Météo</p>
         </Item>
-        <Item to={RoutePaths.Controls}>
-          <RiEqualizerFill className="mb-2 h-6 w-6" />
-          <p>Contrôles</p>
+        <Item to={RoutePaths.SmartHome}>
+          <SiHomeassistant className="mb-2 h-6 w-6" />
+          <p>Maison</p>
         </Item>
-        <Item to={RoutePaths.Power}>
-          <RiPlugFill className="mb-2 h-6 w-6" />
-          <p>Alimentation</p>
+        <Item to={RoutePaths.Monitoring}>
+          <BsGraphUp className="mb-2 h-6 w-6" />
+          <p>Monitoring</p>
         </Item>
       </div>
     </div>
