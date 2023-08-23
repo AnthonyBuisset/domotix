@@ -19,7 +19,7 @@ export const Sidebar = ({ header, children }: Props) => {
   return (
     <>
       {visible || sm ? (
-        <View className={classNames({ fixed: !sm }, "w-full shrink-0 sm:w-60")}>
+        <View className={classNames({ fixed: !sm }, "z-50 w-full shrink-0 sm:w-60")}>
           <Button onClick={() => setVisible(!visible)} />
           {header}
           <View.Items>
