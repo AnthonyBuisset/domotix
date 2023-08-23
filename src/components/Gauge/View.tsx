@@ -34,7 +34,7 @@ export const View = ({ type, value, label }: Props) => {
     <div className="flex w-full items-center justify-end gap-2">
       {icon}
       {label && <p>{label}</p>}
-      <div className={classNames("relative h-2.5 w-72 rounded-full bg-gray-200 dark:bg-gray-600")}>
+      <div className={classNames("relative h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-600")}>
         <div
           className={classNames("absolute inset-y-0 left-0 rounded-l-full", {
             "rounded-r-full": percent === 100,
