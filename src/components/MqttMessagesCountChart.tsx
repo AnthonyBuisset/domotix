@@ -1,15 +1,9 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import useInfluxDbQuery from "../hooks/useInfluxDbQuery";
-
-const QUERY = `
-from(bucket: "mqtt-messages")
-  |> range(start: -15d)
-  |> filter(fn: (r) => r._measurement == "messages")
-  |> group(columns: ["topic"])
-  |> count()
-  |> sort(columns: ["_value"], desc: true)
-  |> limit(n:10)
-`;
+import useInfluxDbQuery, { Range } from "../hooks/useInfluxDbQuery";
+import { Card } from "./Card";
+import { flux, fluxDuration } from "@influxdata/influxdb-client-browser";
+import { useState } from "react";
+import Dropdown from "./Dropdown";
 
 type Stat = {
   topic: string;
@@ -17,16 +11,45 @@ type Stat = {
 };
 
 export default function MqttMessagesCountChart() {
-  const { data } = useInfluxDbQuery<Stat>(QUERY);
+  const [range, setRange] = useState<Range>(Range.LastDay);
+
+  const options: Record<Range, string> = {
+    [Range.LastHour]: "1 heure",
+    [Range.Last4Hours]: "4 heures",
+    [Range.LastDay]: "1 jour",
+    [Range.LastWeek]: "1 semaine",
+  };
+
+  const start = fluxDuration(range);
+  const query = flux`
+  from(bucket: "mqtt-messages")
+    |> range(start: ${start})
+    |> filter(fn: (r) => r._measurement == "messages")
+    |> group(columns: ["topic"])
+    |> count()
+    |> sort(columns: ["_value"], desc: true)
+    |> limit(n:10)
+  `;
+
+  const { data } = useInfluxDbQuery<Stat>(query.toString());
 
   return (
-    <ResponsiveContainer minWidth={200} height={200}>
-      <BarChart layout="vertical" data={data} barSize={16}>
-        <XAxis type="number" tickCount={2} />
-        <YAxis type="category" width={150} dataKey="topic" tickLine={false} axisLine={false} />
-        <Bar layout="vertical" dataKey="_value" fill="#8884d8" />
-        <Tooltip />
-      </BarChart>
-    </ResponsiveContainer>
+    <Card title="Top 10 MQTT topics" className="relative border">
+      <div className="absolute right-4 top-4">
+        <Dropdown
+          options={Object.entries(options).map(([value, label]) => ({ value, label }))}
+          label={options[range]}
+          onChange={option => setRange(option as Range)}
+        />
+      </div>
+      <ResponsiveContainer minWidth={200} height={200}>
+        <BarChart layout="vertical" data={data} barSize={16}>
+          <XAxis type="number" tickCount={2} />
+          <YAxis type="category" width={150} dataKey="topic" tickLine={false} axisLine={false} />
+          <Bar layout="vertical" dataKey="_value" fill="#8884d8" />
+          <Tooltip />
+        </BarChart>
+      </ResponsiveContainer>
+    </Card>
   );
 }
