@@ -45,7 +45,7 @@ export default function MqttMessagesCountChart() {
       <ResponsiveContainer minWidth={200} height={200}>
         <BarChart layout="vertical" data={data} barSize={16}>
           <XAxis type="number" tickCount={2} />
-          <YAxis type="category" width={150} dataKey="topic" tickLine={false} axisLine={false} />
+          <YAxis type="category" width={230} dataKey="topic" tickLine={false} axisLine={false} />
           <Bar layout="vertical" dataKey="_value" fill="#8884d8" />
           <Tooltip />
         </BarChart>
