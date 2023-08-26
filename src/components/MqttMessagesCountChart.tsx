@@ -1,4 +1,4 @@
-import { Bar, BarChart, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, ComposedChart, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import useInfluxDbQuery, { Range } from "../hooks/useInfluxDbQuery";
 import { Card } from "./Card";
 import { flux, fluxDuration } from "@influxdata/influxdb-client-browser";
@@ -44,14 +44,33 @@ export default function MqttMessagesCountChart() {
         />
       </div>
       <ResponsiveContainer minWidth={200} height={200}>
-        <BarChart layout="vertical" data={orderBy(data, ["_value"], ["desc"])} barSize={16}>
+        <ComposedChart layout="vertical" data={orderBy(data, ["_value"], ["desc"])} barSize={16}>
           <XAxis type="number" tick={false} axisLine={false} />
           <YAxis type="category" width={230} dataKey="topic" tickLine={false} axisLine={false} />
-          <Bar layout="vertical" dataKey="_value" fill="#8884d8" />
-          <Tooltip />
+          <Bar layout="vertical" dataKey="_value" fill="#0ea5e9" />
+          <Tooltip content={<CustomTooltip />} />
           <Label />
-        </BarChart>
+        </ComposedChart>
       </ResponsiveContainer>
     </Card>
   );
 }
+
+type TooltipProps = {
+  active?: boolean;
+  payload?: { value: number }[];
+  label?: string;
+};
+
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
+  if (active && payload && payload.length && label) {
+    return (
+      <div className="flex gap-2 rounded-lg bg-white/5 p-4 backdrop-blur-xl">
+        <p className="font-bold">{label}:</p>
+        <p>{payload[0].value}</p>
+      </div>
+    );
+  }
+
+  return null;
+};

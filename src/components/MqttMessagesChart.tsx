@@ -70,7 +70,7 @@ export default function MqttMessagesChart() {
         [msg._time]: {
           ...acc[msg._time],
           [msg.topic]: msg._value,
-          total: (acc[msg._time]?.total || 0) + msg._value,
+          Total: (acc[msg._time]?.Total || 0) + msg._value,
         },
       }),
       {} as Record<string, Record<string, number>>
@@ -95,10 +95,42 @@ export default function MqttMessagesChart() {
           {topics.map((topic, i) => (
             <Bar key={topic} dataKey={topic} fill={COLORS[i]} />
           ))}
-          <Line dataKey="total" stroke="#ffffff" accumulate="sum" />
-          <Tooltip />
+          <Line dataKey="Total" stroke="#ffffff" accumulate="sum" />
+          <Tooltip content={<CustomTooltip />} />
         </ComposedChart>
       </ResponsiveContainer>
     </Card>
   );
 }
+
+type TooltipProps = {
+  active?: boolean;
+  payload?: { name: string; value: number; fill: string }[];
+  label?: string;
+};
+
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
+  if (active && payload && payload.length && label) {
+    return (
+      <div className="flex flex-col gap-2 rounded-lg bg-white/5 p-4 backdrop-blur-xl">
+        <p className="font-bold">
+          {new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(label))}
+        </p>
+        <div className="inline-grid auto-cols-auto grid-flow-col grid-rows-4 gap-x-3">
+          {payload.map(({ name, fill }) => (
+            <p key={name} style={{ color: fill }}>
+              {name}
+            </p>
+          ))}
+          {payload.map(({ name, value, fill }) => (
+            <p key={name} style={{ color: fill }}>
+              {value}
+            </p>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
