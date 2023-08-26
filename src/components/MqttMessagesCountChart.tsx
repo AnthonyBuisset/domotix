@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import useInfluxDbQuery, { Range } from "../hooks/useInfluxDbQuery";
 import { Card } from "./Card";
 import { flux, fluxDuration } from "@influxdata/influxdb-client-browser";
@@ -45,10 +45,11 @@ export default function MqttMessagesCountChart() {
       </div>
       <ResponsiveContainer minWidth={200} height={200}>
         <BarChart layout="vertical" data={orderBy(data, ["_value"], ["desc"])} barSize={16}>
-          <XAxis type="number" tickCount={2} />
+          <XAxis type="number" tick={false} axisLine={false} />
           <YAxis type="category" width={230} dataKey="topic" tickLine={false} axisLine={false} />
           <Bar layout="vertical" dataKey="_value" fill="#8884d8" />
           <Tooltip />
+          <Label />
         </BarChart>
       </ResponsiveContainer>
     </Card>
