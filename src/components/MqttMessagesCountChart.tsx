@@ -4,6 +4,7 @@ import { Card } from "./Card";
 import { flux, fluxDuration } from "@influxdata/influxdb-client-browser";
 import { useState } from "react";
 import Dropdown from "./Dropdown";
+import { orderBy } from "lodash";
 
 type Stat = {
   topic: string;
@@ -43,7 +44,7 @@ export default function MqttMessagesCountChart() {
         />
       </div>
       <ResponsiveContainer minWidth={200} height={200}>
-        <BarChart layout="vertical" data={data} barSize={16}>
+        <BarChart layout="vertical" data={orderBy(data, ["_value"], ["desc"])} barSize={16}>
           <XAxis type="number" tickCount={2} />
           <YAxis type="category" width={230} dataKey="topic" tickLine={false} axisLine={false} />
           <Bar layout="vertical" dataKey="_value" fill="#8884d8" />
