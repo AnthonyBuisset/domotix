@@ -17,9 +17,9 @@ export default function MqttMessagesCountChart() {
   const [range, setRange] = useState<Range>(Range.LastDay);
 
   const query = flux`
-  from(bucket: "mqtt-messages")
+  from(bucket: "smarthome")
     |> range(start: ${duration(range)})
-    |> filter(fn: (r) => r._measurement == "messages" and r._field == "topic")
+    |> filter(fn: (r) => r._measurement == "mqtt-message")
     |> group(columns: ["topic"])
     |> count()
     |> sort(columns: ["_value"], desc: true)

@@ -20,9 +20,9 @@ export default function MqttMessagesChart() {
   const formatDate = (date: string) => formatDateTime(new Date(date), range);
 
   const query = flux`
-  from(bucket: "mqtt-messages")
+  from(bucket: "smarthome")
     |> range(start: ${duration(range)})
-    |> filter(fn: (r) => r._measurement == "messages" and r._field == "topic" )
+    |> filter(fn: (r) => r._measurement == "mqtt-message" )
     |> window(every: ${timeInterval(range)})
     |> count()
     |> duplicate(column: "_stop", as: "_time")
