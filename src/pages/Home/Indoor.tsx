@@ -1,4 +1,6 @@
-import { RiDoorOpenFill, RiLightbulbFill, RiLightbulbLine, RiPlugFill } from "react-icons/ri";
+import { RiDoorOpenFill, RiHotelBedFill, RiLightbulbFill, RiLightbulbLine, RiPlugFill } from "react-icons/ri";
+import { PiOfficeChairFill } from "react-icons/pi";
+import { GiSofa, GiMeal } from "react-icons/gi";
 import { TbWindow } from "react-icons/tb";
 import { Card } from "../../components/Card";
 import { Slider } from "../../components/Slider";
@@ -8,7 +10,7 @@ import { Open as ShutterOpen, Closed as ShutterClosed } from "../../icons/Shutte
 
 export const Indoor = () => (
   <div className="flex h-fit w-full grid-cols-4 flex-col gap-2 p-2 sm:grid">
-    <Card title="Chambre parentale" className="col-span-2">
+    <Card icon={<RiHotelBedFill />} title="Chambre parentale" className="col-span-2">
       <div className="flex gap-2">
         <THB topic="zigbee2mqtt/parental-bedroom/thb" />
         <div className="flex w-1/2 shrink-0 flex-col gap-4">
@@ -28,19 +30,19 @@ export const Indoor = () => (
         </div>
       </div>
     </Card>
-    <Card title="Chambre de Christophe">
+    <Card icon={<RiHotelBedFill />} title="Chambre de Christophe">
       <THB topic="" />
     </Card>
-    <Card title="Chambre de Marie">
+    <Card icon={<RiHotelBedFill />} title="Chambre de Marie">
       <THB topic="" />
     </Card>
-    <Card title="Bureau">
+    <Card icon={<PiOfficeChairFill />} title="Bureau">
       <THB topic="zigbee2mqtt/office/thb" />
     </Card>
-    <Card title="Salon">
+    <Card icon={<GiSofa />} title="Salon">
       <THB topic="zigbee2mqtt/living/thb" />
     </Card>
-    <Card title="Salle a manger">
+    <Card icon={<GiMeal />} title="Salle a manger">
       <THB topic="zigbee2mqtt/dining/thb" />
     </Card>
   </div>
