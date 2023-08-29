@@ -6,6 +6,7 @@ import { Monitoring } from "./pages/Monitoring";
 import { Home } from "./pages/Home";
 import { Indoor } from "./pages/Home/Indoor";
 import { RaspberryPi } from "./pages/Monitoring/RaspberryPi";
+import { Network } from "./pages/Monitoring/Network";
 
 export enum RoutePaths {
   Home = "/",
@@ -24,6 +25,7 @@ export enum SmartHomeRoutePaths {
 export enum MonitoringRoutePaths {
   RaspberryPi = "/monitoring/raspberrypi",
   Ups = "/monitoring/ups",
+  Network = "/monitoring/network",
 }
 
 export const App = () => (
@@ -35,6 +37,7 @@ export const App = () => (
         <Route index element={<Navigate to={MonitoringRoutePaths.RaspberryPi} replace />} />
         <Route path={MonitoringRoutePaths.RaspberryPi} element={<RaspberryPi />} />
         <Route path={MonitoringRoutePaths.Ups} element={<Ups />} />
+        <Route path={MonitoringRoutePaths.Network} element={<Network />} />
       </Route>
       <Route path={RoutePaths.SmartHome} element={<Home />}>
         <Route index element={<Navigate to={SmartHomeRoutePaths.Indoor} replace />} />
