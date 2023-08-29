@@ -24,26 +24,24 @@ export const Ups = () => {
       <Card title="Control">
         <div className="grid grid-cols-2 gap-4">
           <div />
-          <Led
-            topic={Esp32Topic}
-            label="USBC plug"
-            valuePath="$.Vusb"
-            toColor={value => ((value as number) < 2 ? Color.Red : Color.Green)}
-          />
+          <div className="flex items-center gap-4">
+            <p>USBC plug</p>
+            <Led
+              topic={Esp32Topic}
+              valuePath="$.Vusb"
+              toColor={value => ((value as number) < 2 ? Color.Red : Color.Green)}
+            />
+          </div>
           <Button label="Disable Out" topic="ESP32/UPS15W-1/DisableOut" message="true" />
-          <Led
-            topic={Esp32Topic}
-            label="In charge"
-            valuePath="$.InCharge"
-            toColor={value => (value ? Color.Yellow : Color.Grey)}
-          />
+          <div className="flex items-center gap-4">
+            <p>In charge</p>
+            <Led topic={Esp32Topic} valuePath="$.InCharge" toColor={value => (value ? Color.Yellow : Color.Grey)} />
+          </div>
           <Button label="Enable Out" topic="ESP32/UPS15W-1/DisableOut" message="false" />
-          <Led
-            topic={Esp32Topic}
-            label="Output enabled"
-            valuePath="$.OutputEnabled"
-            toColor={value => (value ? Color.Green : Color.Red)}
-          />
+          <div className="flex items-center gap-4">
+            <p>Output enabled</p>
+            <Led topic={Esp32Topic} valuePath="$.OutputEnabled" toColor={value => (value ? Color.Green : Color.Red)} />
+          </div>
         </div>
       </Card>
     </div>

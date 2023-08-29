@@ -12,17 +12,15 @@ export enum Color {
 
 type Props = {
   topic: string;
-  label?: string;
-  labelPath?: string;
   valuePath?: string;
   toColor?: (value: unknown) => Color;
 };
 
-export const Led = ({ topic, valuePath, labelPath, label, toColor }: Props) => {
-  const [value, labelFromMessage] = useJsonMqttValues({
+export const Led = ({ topic, valuePath, toColor }: Props) => {
+  const [value] = useJsonMqttValues({
     topic,
-    paths: [valuePath, labelPath].filter(isDefined),
+    paths: [valuePath].filter(isDefined),
   });
 
-  return <View label={label || labelFromMessage} value={toColor ? toColor(value) : (value as Color)} />;
+  return <View value={toColor ? toColor(value) : (value as Color)} />;
 };
