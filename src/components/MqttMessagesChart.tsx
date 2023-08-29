@@ -60,7 +60,7 @@ export default function MqttMessagesChart() {
           <XAxis type="category" dataKey="time" tickFormatter={formatDate} />
           <YAxis type="number" />
           {topics.map((topic, i) => (
-            <Bar key={topic} dataKey={topic} fill={Colors[i]} />
+            <Bar key={topic} dataKey={topic} fill={Colors[i % Colors.length]} stackId={0} />
           ))}
           <Line dataKey="Total" stroke="#ffffff" accumulate="sum" dot={false} type="monotone" />
           <Tooltip content={<CustomTooltip />} />

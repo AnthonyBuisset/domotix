@@ -22,8 +22,6 @@ export default function MqttMessagesCountChart() {
     |> filter(fn: (r) => r._measurement == "mqtt-message")
     |> group(columns: ["topic"])
     |> count()
-    |> sort(columns: ["_value"], desc: true)
-    |> limit(n:10)
   `;
 
   const { data } = useInfluxDbQuery<Stat>(query.toString());
@@ -37,10 +35,21 @@ export default function MqttMessagesCountChart() {
           onChange={option => setRange(option as Range)}
         />
       </div>
-      <ResponsiveContainer minWidth={200} height={250}>
-        <ComposedChart layout="vertical" data={orderBy(data, ["_value"], ["desc"])} barSize={16}>
+      <ResponsiveContainer minWidth={200} height={350}>
+        <ComposedChart
+          layout="vertical"
+          data={orderBy(data, ["_value", "topic"], ["desc", "asc"]).slice(0, 10)}
+          barSize={16}
+        >
           <XAxis type="number" tick={false} axisLine={false} />
-          <YAxis type="category" width={230} dataKey="topic" tickLine={false} axisLine={false} />
+          <YAxis
+            type="category"
+            dataKey="topic"
+            tickLine={false}
+            axisLine={false}
+            width={200}
+            tickFormatter={(tick: string) => (tick.length < 25 ? tick : `${tick.substring(0, 20)}...`)}
+          />
           <Bar layout="vertical" dataKey="_value" fill={Colors[0]} />
           <Tooltip content={<CustomTooltip />} />
           <Label />
