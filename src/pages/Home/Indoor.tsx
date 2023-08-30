@@ -40,10 +40,10 @@ export const Indoor = () => (
       </div>
     </Card>
     <Card icon={<RiHotelBedFill />} title="Chambre de Christophe">
-      <THB topic="" />
+      <THB topic="#" />
     </Card>
     <Card icon={<RiHotelBedFill />} title="Chambre de Marie">
-      <THB topic="" />
+      <THB topic="#" />
     </Card>
     <Card icon={<PiOfficeChairFill />} title="Bureau">
       <THB topic="zigbee2mqtt/office/thb" />
