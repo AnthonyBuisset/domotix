@@ -15,14 +15,17 @@ export function Slider({ topic, offIcon, onIcon }: Props) {
 
   const client = useMqttClient();
   const setValue = (percent: number) =>
-    client?.publish(topic + "/set", JSON.stringify({ brightness_l1: (percent * 2.55).toFixed() }));
+    client?.publish(
+      topic + "/set",
+      JSON.stringify({ brightness_l1: (percent * 2.55).toFixed(), state_l1: percent ? "ON" : "OFF" })
+    );
 
   const debouncedSetValue = useDebouncedCallback(setValue, 300);
 
   return (
     <div className="flex w-full flex-row items-center gap-4">
       <div className="cursor-pointer" onClick={() => setValue(brightness ? 0 : 100)}>
-        {brightness ? (
+        {percent ? (
           <button onClick={() => setValue(0)}>{onIcon}</button>
         ) : (
           <button onClick={() => setValue(100)}>{offIcon}</button>
