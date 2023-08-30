@@ -1,45 +1,39 @@
 import { RangeSlider } from "flowbite-react";
 import { ReactElement, useEffect, useState } from "react";
-import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
 import { useDebounce } from "usehooks-ts";
 
 type Props = {
-  topic: string;
+  min?: number;
+  max?: number;
   offIcon: ReactElement;
   onIcon: ReactElement;
+  value: number;
+  setValue: (value: number) => void;
 };
 
-export function Slider({ topic, offIcon, onIcon }: Props) {
-  const client = useMqttClient();
-  const [brightness, state] = useJsonMqttValues({ topic, paths: ["$.brightness_l1", "$.state_l1"] });
-  const [value, setValue] = useState(0);
-  const deboundedValue = useDebounce(value, 300);
-
-  const publishBrightness = (brightness: number) =>
-    client?.publish(
-      topic + "/set",
-      JSON.stringify({ brightness_l1: brightness.toFixed(), state_l1: brightness ? "ON" : "OFF" })
-    );
+export function Slider({ min = 0, max = 100, offIcon, onIcon, value, setValue }: Props) {
+  const [inner, setInner] = useState(value);
+  const debounced = useDebounce(inner, 300);
 
   useEffect(() => {
-    publishBrightness(deboundedValue);
-  }, [deboundedValue]);
+    setInner(value);
+  }, [value]);
 
   useEffect(() => {
-    setValue(parseInt(state === "OFF" ? "0" : brightness));
-  }, [brightness, state]);
+    setValue(debounced);
+  }, [debounced]);
 
   return (
-    <div className="flex w-full flex-row items-center gap-4">
-      <div className="cursor-pointer" onClick={() => publishBrightness(value ? 0 : 255)}>
+    <div className="flex w-full flex-row items-center gap-2">
+      <div className="cursor-pointer" onClick={() => setValue(value ? min : max)}>
         {value ? onIcon : offIcon}
       </div>
       <RangeSlider
-        min={0}
-        max={255}
+        min={min}
+        max={max}
         className="w-full"
-        value={value}
-        onChange={({ target }) => setValue(parseInt(target.value))}
+        value={inner}
+        onChange={({ target }) => setInner(parseInt(target.value))}
       />
     </div>
   );
