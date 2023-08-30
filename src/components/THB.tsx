@@ -13,6 +13,7 @@ import {
   RiSignalWifiFill,
 } from "react-icons/ri";
 import { Card } from "./Card";
+import { Tooltip } from "flowbite-react";
 
 type Props = {
   topic: string;
@@ -33,8 +34,12 @@ export const THB = ({ topic }: Props) => {
           <Barometer value={parseFloat(barometer)} />
         </div>
         <div className="flex items-center gap-2 self-start">
-          <LinkQuality value={parseFloat(linkquality)} />
-          <Battery value={parseFloat(battery)} />
+          <Tooltip content={`${linkquality}%`}>
+            <LinkQuality value={parseFloat(linkquality)} />
+          </Tooltip>
+          <Tooltip content={`${battery}%`}>
+            <Battery value={parseFloat(battery)} />
+          </Tooltip>
         </div>
       </div>
     </Card>
