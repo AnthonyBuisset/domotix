@@ -1,7 +1,7 @@
 import { RangeSlider } from "flowbite-react";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
-import { useDebouncedCallback } from "use-debounce";
+import { useDebounce } from "usehooks-ts";
 
 type Props = {
   topic: string;
@@ -10,31 +10,36 @@ type Props = {
 };
 
 export function Slider({ topic, offIcon, onIcon }: Props) {
-  const [brightness, state] = useJsonMqttValues({ topic, paths: ["$.brightness_l1", "$.state_l1"] });
-  const percent = parseInt(state === "OFF" ? "0" : brightness) / 2.55;
-
   const client = useMqttClient();
-  const setValue = (percent: number) =>
+  const [brightness, state] = useJsonMqttValues({ topic, paths: ["$.brightness_l1", "$.state_l1"] });
+  const [value, setValue] = useState(0);
+  const deboundedValue = useDebounce(value, 300);
+
+  const publishBrightness = (brightness: number) =>
     client?.publish(
       topic + "/set",
-      JSON.stringify({ brightness_l1: (percent * 2.55).toFixed(), state_l1: percent ? "ON" : "OFF" })
+      JSON.stringify({ brightness_l1: brightness.toFixed(), state_l1: brightness ? "ON" : "OFF" })
     );
 
-  const debouncedSetValue = useDebouncedCallback(setValue, 300);
+  useEffect(() => {
+    publishBrightness(deboundedValue);
+  }, [deboundedValue]);
+
+  useEffect(() => {
+    setValue(parseInt(state === "OFF" ? "0" : brightness));
+  }, [brightness, state]);
 
   return (
     <div className="flex w-full flex-row items-center gap-4">
-      <div className="cursor-pointer" onClick={() => setValue(brightness ? 0 : 100)}>
-        {percent ? (
-          <button onClick={() => setValue(0)}>{onIcon}</button>
-        ) : (
-          <button onClick={() => setValue(100)}>{offIcon}</button>
-        )}
+      <div className="cursor-pointer" onClick={() => publishBrightness(value ? 0 : 255)}>
+        {value ? onIcon : offIcon}
       </div>
       <RangeSlider
+        min={0}
+        max={255}
         className="w-full"
-        value={percent.toString()}
-        onChange={({ target }) => debouncedSetValue(parseInt(target.value))}
+        value={value}
+        onChange={({ target }) => setValue(parseInt(target.value))}
       />
     </div>
   );
