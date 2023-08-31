@@ -4,9 +4,12 @@ import { Weather } from "./pages/Weather";
 import { Ups } from "./pages/Monitoring/Ups";
 import { Monitoring } from "./pages/Monitoring";
 import { Home } from "./pages/Home";
-import { Indoor } from "./pages/Home/Indoor";
+import ParentalBedroom from "./pages/Home/ParentalBedroom";
 import { RaspberryPi } from "./pages/Monitoring/RaspberryPi";
 import { Network } from "./pages/Monitoring/Network";
+import LivingRoom from "./pages/Home/LivingRoom";
+import DiningRoom from "./pages/Home/DiningRoom";
+import Office from "./pages/Home/Office";
 
 export enum RoutePaths {
   Home = "/",
@@ -16,10 +19,12 @@ export enum RoutePaths {
 }
 
 export enum SmartHomeRoutePaths {
-  Indoor = "/home/indoor",
-  Outdoor = "/home/outdoor",
-  Cameras = "/home/cameras",
-  People = "/home/people",
+  ParentalBedroom = "/home/parental-bedroom",
+  ChristopheBedroom = "/home/christophe-bedroom",
+  MarieBedroom = "/home/marie-bedroom",
+  Office = "/home/office",
+  LivingRoom = "/home/living-room",
+  DiningRoom = "/home/dining-room",
 }
 
 export enum MonitoringRoutePaths {
@@ -40,11 +45,13 @@ export const App = () => (
         <Route path={MonitoringRoutePaths.Network} element={<Network />} />
       </Route>
       <Route path={RoutePaths.SmartHome} element={<Home />}>
-        <Route index element={<Navigate to={SmartHomeRoutePaths.Indoor} replace />} />
-        <Route path={SmartHomeRoutePaths.Indoor} element={<Indoor />} />
-        <Route path={SmartHomeRoutePaths.Outdoor} element={<div />} />
-        <Route path={SmartHomeRoutePaths.Cameras} element={<div />} />
-        <Route path={SmartHomeRoutePaths.People} element={<div />} />
+        <Route index element={<Navigate to={SmartHomeRoutePaths.ParentalBedroom} replace />} />
+        <Route path={SmartHomeRoutePaths.ParentalBedroom} element={<ParentalBedroom />} />
+        <Route path={SmartHomeRoutePaths.ChristopheBedroom} element={<div />} />
+        <Route path={SmartHomeRoutePaths.MarieBedroom} element={<div />} />
+        <Route path={SmartHomeRoutePaths.LivingRoom} element={<LivingRoom />} />
+        <Route path={SmartHomeRoutePaths.DiningRoom} element={<DiningRoom />} />
+        <Route path={SmartHomeRoutePaths.Office} element={<Office />} />
       </Route>
     </Route>
   </Routes>

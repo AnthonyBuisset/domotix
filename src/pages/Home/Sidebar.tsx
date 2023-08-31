@@ -1,17 +1,21 @@
-import { RiHome3Fill } from "react-icons/ri";
+import { RiHotelBedFill } from "react-icons/ri";
 import { useWeatherForecast } from "../../hooks/useWeatherForecast";
 import { useNow } from "../../hooks/useNow";
 import { SmartHomeRoutePaths } from "../../App";
 import { Sidebar as Base, Item } from "../../components/Layout/Sidebar";
-import { FaTree, FaVideo } from "react-icons/fa";
-import { BsPeopleFill } from "react-icons/bs";
+import { PiOfficeChairFill } from "react-icons/pi";
+import { GiMeal, GiSofa } from "react-icons/gi";
+import { TbMoodBoy } from "react-icons/tb";
+import { CgGirl } from "react-icons/cg";
 
 export const Sidebar = () => (
   <Base header={<Clock />}>
-    <Item name="Interieur" icon={RiHome3Fill} to={SmartHomeRoutePaths.Indoor} />
-    <Item name="Exterieur" icon={FaTree} to={SmartHomeRoutePaths.Outdoor} />
-    <Item name="Cameras" icon={FaVideo} to={SmartHomeRoutePaths.Cameras} />
-    <Item name="Famille" icon={BsPeopleFill} to={SmartHomeRoutePaths.People} />
+    <Item name="Chambre parentale" icon={RiHotelBedFill} to={SmartHomeRoutePaths.ParentalBedroom} />
+    <Item name="Chambre de Christophe" icon={TbMoodBoy} to={SmartHomeRoutePaths.ChristopheBedroom} />
+    <Item name="Chambre de Marie" icon={CgGirl} to={SmartHomeRoutePaths.MarieBedroom} />
+    <Item name="Salon" icon={GiSofa} to={SmartHomeRoutePaths.LivingRoom} />
+    <Item name="Salle a manger" icon={GiMeal} to={SmartHomeRoutePaths.DiningRoom} />
+    <Item name="Bureau" icon={PiOfficeChairFill} to={SmartHomeRoutePaths.Office} />
   </Base>
 );
 

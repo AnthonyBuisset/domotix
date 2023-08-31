@@ -9,7 +9,7 @@ type Props = {
   topic: string;
 };
 
-export const THB = ({ topic }: Props) => {
+export default function THB({ topic }: Props) {
   const [temperature, humidity, barometer, battery, linkquality] = useJsonMqttValues({
     topic,
     paths: ["$.temperature", "$.humidity", "$.pressure", "$.battery", "$.linkquality"],
@@ -26,7 +26,7 @@ export const THB = ({ topic }: Props) => {
       </div>
     </Card>
   );
-};
+}
 
 type InnerProps = {
   value: number;
