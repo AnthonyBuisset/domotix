@@ -1,13 +1,21 @@
 import jp from "jsonpath";
 import { useMqttState, useSubscription } from "mqtt-react-hooks";
+import { useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 type Props = {
   topic: string;
 };
 
-export const useMqttValue = ({ topic }: Props): string | null => {
+export const useMqttValue = ({ topic }: Props): string | undefined => {
   const { message } = useSubscription(topic);
-  return message?.message?.toString().replace("\n", "") || null;
+  const [cachedMessage, setCachedMessage] = useLocalStorage(topic, message);
+
+  useEffect(() => {
+    if (message !== undefined) setCachedMessage(message);
+  }, [message]);
+
+  return (message ?? cachedMessage)?.message?.toString().replace("\n", "");
 };
 
 type JsonProps = {
