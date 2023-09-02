@@ -1,20 +1,21 @@
 import { RiMenuFill } from "react-icons/ri";
 import { Sidebar as View } from "flowbite-react";
-import { NavLink, useLocation } from "react-router-dom";
-import { IconType } from "react-icons";
-import { PropsWithChildren, ReactElement, useEffect, useState } from "react";
+import { NavLink, useLocation, useMatch, useResolvedPath } from "react-router-dom";
+import { ReactElement, useEffect, useState } from "react";
 import { useScreen } from "../../hooks/useScreen";
 import classNames from "classnames";
 
 type Props = {
   header?: ReactElement;
-} & PropsWithChildren;
+  items: Omit<ItemProps, "onSelect">[];
+};
 
-export const Sidebar = ({ header, children }: Props) => {
+export const Sidebar = ({ header, items }: Props) => {
   const location = useLocation();
   const { sm } = useScreen();
   const [visible, setVisible] = useState(false);
   useEffect(() => setVisible(false), [location.pathname]);
+  const [selectedItem, setSelectedItem] = useState(items[0]);
 
   return (
     <>
@@ -23,11 +24,19 @@ export const Sidebar = ({ header, children }: Props) => {
           <Button onClick={() => setVisible(!visible)} />
           {header}
           <View.Items>
-            <View.ItemGroup>{children}</View.ItemGroup>
+            <View.ItemGroup>
+              {items.map(i => (
+                <Item key={i.name} onSelect={() => setSelectedItem(i)} {...i} />
+              ))}
+            </View.ItemGroup>
           </View.Items>
         </View>
       ) : (
-        <Button className="ml-3 mt-4 w-fit self-start" onClick={() => setVisible(!visible)} />
+        <div className="flex items-center gap-2 p-2">
+          <Button className="w-fit" onClick={() => setVisible(!visible)} />
+          {selectedItem.icon}
+          <h1 className="text-2xl font-medium">{selectedItem.name}</h1>
+        </div>
       )}
     </>
   );
@@ -54,16 +63,24 @@ const Button = ({ onClick, className }: ButtonProps) => (
 
 type ItemProps = {
   name: string;
-  icon: IconType;
+  icon: ReactElement;
   to: string;
+  onSelect: () => void;
 };
 
-export const Item = ({ name, icon, to }: ItemProps) => (
-  <NavLink to={to}>
-    {({ isActive }) => (
-      <View.Item as="div" icon={icon} active={isActive}>
+const Item = ({ name, icon, onSelect, to }: ItemProps) => {
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname });
+
+  useEffect(() => {
+    if (match) onSelect();
+  }, [match]);
+
+  return (
+    <NavLink to={to}>
+      <View.Item as="div" icon={() => icon} active={match}>
         <p>{name}</p>
       </View.Item>
-    )}
-  </NavLink>
-);
+    </NavLink>
+  );
+};

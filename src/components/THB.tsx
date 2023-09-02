@@ -7,16 +7,17 @@ import { Card } from "./Card";
 
 type Props = {
   topic: string;
+  className?: string;
 };
 
-export default function THB({ topic }: Props) {
+export default function THB({ topic, className }: Props) {
   const [temperature, humidity, barometer, battery, linkquality] = useJsonMqttValues({
     topic,
     paths: ["$.temperature", "$.humidity", "$.pressure", "$.battery", "$.linkquality"],
   });
 
   return (
-    <Card className="w-full" linkquality={linkquality} battery={battery}>
+    <Card className={className} linkquality={linkquality} battery={battery}>
       <div className="flex items-center">
         {temperature !== undefined && <Temperature value={parseFloat(temperature)} />}
         <div className="flex min-w-max grow flex-col">
@@ -45,6 +46,7 @@ const Temperature = ({ value }: InnerProps) => {
       />
       <GaugeComponent
         type="radial"
+        className="-m-4"
         arc={{
           colorArray: ["#38bdf8", "#ea580c"],
           padding: 0,
