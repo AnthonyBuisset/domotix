@@ -20,7 +20,7 @@ export function Slider({ min = 0, max = 100, offIcon, onIcon, value, setValue }:
   }, [value]);
 
   useEffect(() => {
-    setValue(debounced);
+    if (debounced !== value) setValue(debounced);
   }, [debounced]);
 
   return (
