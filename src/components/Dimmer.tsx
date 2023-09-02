@@ -17,7 +17,9 @@ export function Dimmer({ topic }: Props) {
   const publishBrightness = (brightness: number) =>
     client?.publish(`${topic}/set`, JSON.stringify({ brightness_l1: brightness, state_l1: brightness ? "ON" : "OFF" }));
 
-  return (
+  return brightness === undefined ? (
+    <Skeleton />
+  ) : (
     <Card linkquality={linkquality} title="Lumieres">
       <Slider
         value={parseInt(state === "OFF" ? "0" : brightness)}
@@ -29,3 +31,5 @@ export function Dimmer({ topic }: Props) {
     </Card>
   );
 }
+
+const Skeleton = () => <Card title="Lumieres"></Card>;

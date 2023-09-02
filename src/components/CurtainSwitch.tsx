@@ -29,7 +29,9 @@ export function CurtainSwitch({ icon, title, topic }: Props) {
   const toggleCalibration = () =>
     client?.publish(`${topic}/set`, JSON.stringify({ calibration: calibration === "ON" ? "OFF" : "ON" }));
 
-  return (
+  return finalPosition === undefined ? (
+    <Skeleton {...{ icon, title }} />
+  ) : (
     <Card icon={icon} title={title} linkquality={linkquality}>
       <div className="flex flex-row items-center">
         {moving === "DOWN" ? (
@@ -58,3 +60,5 @@ export function CurtainSwitch({ icon, title, topic }: Props) {
     </Card>
   );
 }
+
+const Skeleton = ({ icon, title }: Pick<Props, "icon" | "title">) => <Card icon={icon} title={title} />;
