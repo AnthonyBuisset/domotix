@@ -17,9 +17,9 @@ export default function THB({ topic }: Props) {
 
   return (
     <Card className="w-full" linkquality={linkquality} battery={battery}>
-      <div className="flex gap-2">
-        <div className="flex grow flex-col">
-          {temperature !== undefined && <Temperature value={parseFloat(temperature)} />}
+      <div className="flex items-center">
+        {temperature !== undefined && <Temperature value={parseFloat(temperature)} />}
+        <div className="flex min-w-max grow flex-col">
           <Humidity value={parseFloat(humidity)} />
           <Barometer value={parseFloat(barometer)} />
         </div>
@@ -38,7 +38,7 @@ const Temperature = ({ value }: InnerProps) => {
   const nbSubArcs = (max - min) * 10;
 
   return (
-    <div className="relative">
+    <div className="relative min-w-0">
       <img
         src={thermometer}
         className="absolute left-1/2 top-1/2 m-auto h-2/3 w-2/3 -translate-x-1/2 -translate-y-1/2"
