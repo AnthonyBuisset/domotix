@@ -17,14 +17,19 @@ interface Props extends PropsWithChildren {
   className?: string;
   linkquality?: string | number;
   battery?: string | number;
+  onClick?: () => void;
 }
 
-export const Card = ({ title, icon, className, linkquality, battery, children }: Props) => (
+export const Card = ({ title, icon, className, linkquality, battery, onClick, children }: Props) => (
   <div
     className={classNames(
       "relative flex flex-col gap-2 rounded-lg border border-gray-300 bg-gray-200 p-4 shadow dark:border-gray-700 dark:bg-white/[0.02]",
-      className
+      className,
+      {
+        "cursor-pointer hover:bg-white/5": onClick,
+      }
     )}
+    onClick={onClick}
   >
     <div className="absolute right-2 top-2 flex items-center gap-2">
       {linkquality !== undefined && (

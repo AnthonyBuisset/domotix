@@ -1,17 +1,16 @@
 import { Open as ShutterOpen, Closed as ShutterClosed } from "../icons/Shutters";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
 import { Slider } from "./Slider";
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "./Card";
 import { RiArrowDownDoubleLine, RiArrowUpDoubleLine, RiEqualizerFill, RiEqualizerLine } from "react-icons/ri";
 
 type Props = {
-  icon?: ReactElement;
   title?: string;
   topic: string;
 };
 
-export function CurtainSwitch({ icon, title, topic }: Props) {
+export function CurtainSwitch({ title, topic }: Props) {
   const client = useMqttClient();
   const [calibration, moving, linkquality, position] = useJsonMqttValues({
     topic,
@@ -30,26 +29,33 @@ export function CurtainSwitch({ icon, title, topic }: Props) {
     client?.publish(`${topic}/set`, JSON.stringify({ calibration: calibration === "ON" ? "OFF" : "ON" }));
 
   return finalPosition === undefined ? (
-    <Skeleton {...{ icon, title }} />
+    <Skeleton title={title} />
   ) : (
-    <Card icon={icon} title={title} linkquality={linkquality}>
-      <div className="flex flex-row items-center">
-        {moving === "DOWN" ? (
-          <RiArrowDownDoubleLine className="-ml-4 -mr-2 animate-bounce text-2xl" />
-        ) : moving === "UP" ? (
-          <RiArrowUpDoubleLine className="-ml-4 -mr-2 animate-bounce text-2xl" />
-        ) : undefined}
+    <Card
+      icon={
+        <div className="flex flex-row items-center">
+          {moving === "DOWN" ? (
+            <RiArrowDownDoubleLine className="-ml-4 -mr-2 animate-bounce text-2xl" />
+          ) : moving === "UP" ? (
+            <RiArrowUpDoubleLine className="-ml-4 -mr-2 animate-bounce text-2xl" />
+          ) : undefined}
+          {finalPosition ? <ShutterOpen size={24} /> : <ShutterClosed size={24} />}
+        </div>
+      }
+      title={title}
+      linkquality={linkquality}
+      onClick={() => publishPosition(finalPosition ? 0 : 100)}
+    >
+      <div className="flex flex-row items-center gap-2">
         <Slider
           value={finalPosition}
           setValue={position => {
             publishPosition(position);
             setFinalPosition(position);
           }}
-          onIcon={<ShutterOpen size={24} />}
-          offIcon={<ShutterClosed size={24} />}
           max={100}
         />
-        <button className="ml-2 text-xl" onClick={toggleCalibration}>
+        <button className="text-xl" onClick={toggleCalibration}>
           {calibration === "ON" ? (
             <RiEqualizerFill className="text-black dark:text-white" />
           ) : (
@@ -61,4 +67,4 @@ export function CurtainSwitch({ icon, title, topic }: Props) {
   );
 }
 
-const Skeleton = ({ icon, title }: Pick<Props, "icon" | "title">) => <Card icon={icon} title={title} />;
+const Skeleton = ({ title }: { title?: string }) => <Card icon={<ShutterClosed size={24} />} title={title} />;

@@ -4,10 +4,11 @@ import { Slider } from "./Slider";
 import { Card } from "./Card";
 
 type Props = {
+  title: string;
   topic: string;
 };
 
-export function Dimmer({ topic }: Props) {
+export function Dimmer({ title, topic }: Props) {
   const client = useMqttClient();
   const [brightness, state, linkquality] = useJsonMqttValues({
     topic,
@@ -20,14 +21,13 @@ export function Dimmer({ topic }: Props) {
   return brightness === undefined ? (
     <Skeleton />
   ) : (
-    <Card linkquality={linkquality} title="Lumieres">
-      <Slider
-        value={parseInt(state === "OFF" ? "0" : brightness)}
-        setValue={publishBrightness}
-        onIcon={<RiLightbulbFill className="text-2xl" />}
-        offIcon={<RiLightbulbLine className="text-2xl" />}
-        max={255}
-      />
+    <Card
+      linkquality={linkquality}
+      title={title}
+      icon={brightness ? <RiLightbulbFill className="text-2xl" /> : <RiLightbulbLine className="text-2xl" />}
+      onClick={() => publishBrightness(brightness ? 0 : 255)}
+    >
+      <Slider value={parseInt(state === "OFF" ? "0" : brightness)} setValue={publishBrightness} max={255} />
     </Card>
   );
 }
