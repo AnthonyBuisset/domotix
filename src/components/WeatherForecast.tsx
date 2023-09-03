@@ -12,7 +12,7 @@ export const WeatherForecast = () => {
   const forecast = useWeatherForecast();
 
   return (
-    <div className="flex h-full w-full grow flex-col gap-2 overflow-y-auto md:w-fit lg:h-fit lg:flex-row">
+    <div className="flex  w-full grow flex-col gap-2 overflow-y-auto md:w-fit lg:h-fit lg:flex-row">
       {forecast?.daily.slice(1).map((f, index) => {
         const { weekday, day, month } = format(f.date);
         return (
