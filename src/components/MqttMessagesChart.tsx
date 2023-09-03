@@ -47,7 +47,7 @@ export default function MqttMessagesChart() {
   const topics = chain(data).map("topic").sort().uniq().value();
 
   return (
-    <Card title="MQTT messages" className="relative">
+    <Card title="MQTT messages" className="relative grow">
       <div className="absolute right-4 top-4">
         <Dropdown
           options={Object.entries(DropdownOptions).map(([value, label]) => ({ value, label }))}
