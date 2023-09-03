@@ -1,7 +1,7 @@
 import { Sidebar } from "./Sidebar";
 import { Outlet } from "react-router-dom";
 
-export const Monitoring = () => {
+export default function Monitoring() {
   return (
     <div className="flex h-full flex-col sm:flex-row">
       <Sidebar />
@@ -10,4 +10,4 @@ export const Monitoring = () => {
       </div>
     </div>
   );
-};
+}

@@ -2,14 +2,14 @@ import { WeatherForecast } from "../components/WeatherForecast";
 import { useNow } from "../hooks/useNow";
 import { useWeatherForecast } from "../hooks/useWeatherForecast";
 
-export const Weather = () => {
+export default function Weather() {
   return (
     <div className="flex h-full w-full flex-col items-center gap-8 p-2 sm:flex-row sm:gap-2 md:flex-col md:gap-8">
       <Clock />
       <WeatherForecast />
     </div>
   );
-};
+}
 
 const Clock = () => {
   const { weekday, date, hours, minutes, seconds } = useNow();

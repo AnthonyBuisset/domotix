@@ -4,7 +4,7 @@ import { View as Led } from "../../components/Led/View";
 import { Card } from "../../components/Card";
 import { useEffect, useState } from "react";
 
-export const Network = () => {
+export default function Network() {
   const { connectionStatus, message } = useSubscription("#");
   const [messages, setMessages] = useState<string[]>([]);
 
@@ -45,4 +45,4 @@ export const Network = () => {
       </Card>
     </div>
   );
-};
+}

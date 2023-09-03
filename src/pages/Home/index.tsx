@@ -1,7 +1,7 @@
 import { Sidebar } from "./Sidebar";
 import { Outlet } from "react-router-dom";
 
-export const Home = () => {
+export default function Home() {
   return (
     <div className="flex h-full flex-col sm:flex-row">
       <Sidebar />
@@ -10,4 +10,4 @@ export const Home = () => {
       </div>
     </div>
   );
-};
+}

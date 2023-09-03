@@ -3,7 +3,7 @@ import { Color, Led } from "../../components/Led";
 import { Gauge, Type } from "../../components/Gauge";
 import { Button } from "../../components/Button";
 
-export const Ups = () => {
+export default function Ups() {
   const Esp32Topic = "ESP32/UPS15W-1";
 
   return (
@@ -46,4 +46,4 @@ export const Ups = () => {
       </Card>
     </div>
   );
-};
+}

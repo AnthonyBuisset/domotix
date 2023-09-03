@@ -1,15 +1,18 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Layout } from "./components/Layout";
-import { Weather } from "./pages/Weather";
-import { Ups } from "./pages/Monitoring/Ups";
-import { Monitoring } from "./pages/Monitoring";
-import { Home } from "./pages/Home";
-import ParentalBedroom from "./pages/Home/ParentalBedroom";
-import { RaspberryPi } from "./pages/Monitoring/RaspberryPi";
-import { Network } from "./pages/Monitoring/Network";
-import LivingRoom from "./pages/Home/LivingRoom";
-import DiningRoom from "./pages/Home/DiningRoom";
-import Office from "./pages/Home/Office";
+import { lazy } from "react";
+
+import Layout from "./components/Layout";
+
+const Weather = lazy(() => import("./pages/Weather"));
+const Ups = lazy(() => import("./pages/Monitoring/Ups"));
+const Monitoring = lazy(() => import("./pages/Monitoring"));
+const Home = lazy(() => import("./pages/Home"));
+const ParentalBedroom = lazy(() => import("./pages/Home/ParentalBedroom"));
+const RaspberryPi = lazy(() => import("./pages/Monitoring/RaspberryPi"));
+const Network = lazy(() => import("./pages/Monitoring/Network"));
+const LivingRoom = lazy(() => import("./pages/Home/LivingRoom"));
+const DiningRoom = lazy(() => import("./pages/Home/DiningRoom"));
+const Office = lazy(() => import("./pages/Home/Office"));
 
 export enum RoutePaths {
   Home = "/",
