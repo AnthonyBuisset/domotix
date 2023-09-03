@@ -4,7 +4,7 @@ import { useWeatherForecast } from "../hooks/useWeatherForecast";
 
 export const Weather = () => {
   return (
-    <div className="flex h-full flex-col items-center gap-8 p-2">
+    <div className="flex h-full w-full flex-col items-center gap-8 p-2 sm:flex-row sm:gap-2 md:flex-col md:gap-8">
       <Clock />
       <WeatherForecast />
     </div>
@@ -16,7 +16,7 @@ const Clock = () => {
   const forecast = useWeatherForecast();
 
   return (
-    <div className="my-2 flex flex-col items-center gap-1">
+    <div className="flex min-w-max flex-col items-center gap-1 p-2">
       {forecast ? <img src={forecast?.current.weather[0].icon} className="w-20" /> : <div className="h-20" />}
       <div>
         {weekday} {date}

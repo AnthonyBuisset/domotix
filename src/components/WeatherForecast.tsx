@@ -12,19 +12,19 @@ export const WeatherForecast = () => {
   const forecast = useWeatherForecast();
 
   return (
-    <div className="flex h-full w-full flex-col gap-4 overflow-y-auto sm:w-fit md:grid md:grid-cols-2 lg:flex lg:flex-row">
+    <div className="flex h-full w-full grow flex-col gap-2 overflow-y-auto md:w-fit lg:h-fit lg:flex-row">
       {forecast?.daily.slice(1).map((f, index) => {
         const { weekday, day, month } = format(f.date);
         return (
-          <Card key={f.dt}>
+          <Card key={f.dt} className="lg:h-fit">
             <div className="flex flex-row items-center justify-between gap-4 lg:flex-col">
-              <div className="flex flex-col items-center gap-1 lg:flex-row">
+              <div className="flex flex-col items-center gap-1 sm:flex-row lg:flex-col">
                 <span>{weekday}</span>
                 <span>{day}</span>
                 <span>{month}</span>
               </div>
               <img src={f.weather[0].icon} className="w-14" />
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 sm:flex-row lg:flex-col">
                 <div className="flex flex-row items-center">
                   <img
                     src={
