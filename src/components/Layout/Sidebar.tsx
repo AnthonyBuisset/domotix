@@ -32,10 +32,10 @@ export const Sidebar = ({ header, items }: Props) => {
           </View.Items>
         </View>
       ) : (
-        <div className="flex items-center gap-2 p-2">
+        <div className="flex items-center gap-2 p-2 text-2xl font-medium">
           <Button className="w-fit" onClick={() => setVisible(!visible)} />
           {selectedItem.icon}
-          <h1 className="text-2xl font-medium">{selectedItem.name}</h1>
+          <h1>{selectedItem.name}</h1>
         </div>
       )}
     </>

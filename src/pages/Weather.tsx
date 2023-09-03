@@ -4,7 +4,7 @@ import { useWeatherForecast } from "../hooks/useWeatherForecast";
 
 export const Weather = () => {
   return (
-    <div className="flex flex-col items-center gap-8 p-2">
+    <div className="flex h-full flex-col items-center gap-8 p-2">
       <Clock />
       <WeatherForecast />
     </div>
