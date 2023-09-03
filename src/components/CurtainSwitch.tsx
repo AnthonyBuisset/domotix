@@ -4,6 +4,7 @@ import { Slider } from "./Slider";
 import { useEffect, useState } from "react";
 import { Card } from "./Card";
 import { RiArrowDownDoubleLine, RiArrowUpDoubleLine, RiEqualizerFill, RiEqualizerLine } from "react-icons/ri";
+import { isDefined } from "../utils";
 
 type Props = {
   title?: string;
@@ -17,10 +18,10 @@ export function CurtainSwitch({ title, topic }: Props) {
     paths: ["$.calibration", "$.moving", "$.linkquality", "$.position"],
   });
 
-  const [finalPosition, setFinalPosition] = useState(parseInt(position));
+  const [finalPosition, setFinalPosition] = useState<number>();
 
   useEffect(() => {
-    if (moving === "STOP" && position !== undefined) setFinalPosition(parseInt(position));
+    if (moving === "STOP" && isDefined(position)) setFinalPosition(parseInt(position));
   }, [position, moving]);
 
   const publishPosition = (position: number) => client?.publish(`${topic}/set`, JSON.stringify({ position }));
@@ -28,9 +29,7 @@ export function CurtainSwitch({ title, topic }: Props) {
   const toggleCalibration = () =>
     client?.publish(`${topic}/set`, JSON.stringify({ calibration: calibration === "ON" ? "OFF" : "ON" }));
 
-  return finalPosition === undefined ? (
-    <Skeleton title={title} />
-  ) : (
+  return isDefined(finalPosition) ? (
     <Card
       icon={
         <div className="flex flex-row items-center">
@@ -64,6 +63,8 @@ export function CurtainSwitch({ title, topic }: Props) {
         </button>
       </div>
     </Card>
+  ) : (
+    <Skeleton title={title} />
   );
 }
 

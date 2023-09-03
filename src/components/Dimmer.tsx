@@ -2,6 +2,7 @@ import { RiLightbulbFill, RiLightbulbLine } from "react-icons/ri";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
 import { Slider } from "./Slider";
 import { Card } from "./Card";
+import { isDefined } from "../utils";
 
 type Props = {
   title: string;
@@ -18,9 +19,7 @@ export function Dimmer({ title, topic }: Props) {
   const publishBrightness = (brightness: number) =>
     client?.publish(`${topic}/set`, JSON.stringify({ brightness_l1: brightness, state_l1: brightness ? "ON" : "OFF" }));
 
-  return brightness === undefined ? (
-    <Skeleton />
-  ) : (
+  return isDefined(brightness) ? (
     <Card
       linkquality={linkquality}
       title={title}
@@ -29,6 +28,8 @@ export function Dimmer({ title, topic }: Props) {
     >
       <Slider value={parseInt(state === "OFF" ? "0" : brightness)} setValue={publishBrightness} max={255} />
     </Card>
+  ) : (
+    <Skeleton />
   );
 }
 
