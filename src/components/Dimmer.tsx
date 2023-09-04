@@ -16,17 +16,26 @@ export function Dimmer({ title, topic }: Props) {
     paths: ["$.brightness_l1", "$.state_l1", "$.linkquality"],
   });
 
-  const publishBrightness = (brightness: number) =>
-    client?.publish(`${topic}/set`, JSON.stringify({ brightness_l1: brightness, state_l1: brightness ? "ON" : "OFF" }));
+  const brightnessValue = parseInt(brightness);
+
+  const publish = (state: boolean, brightness: number) =>
+    client?.publish(
+      `${topic}/set`,
+      JSON.stringify({ brightness_l1: state && !brightness ? 255 : brightness, state_l1: state })
+    );
 
   return isDefined(brightness) ? (
     <Card
       linkquality={linkquality}
       title={title}
-      icon={brightness ? <RiLightbulbFill className="text-2xl" /> : <RiLightbulbLine className="text-2xl" />}
-      onClick={() => publishBrightness(brightness ? 0 : 255)}
+      icon={state ? <RiLightbulbFill className="text-2xl" /> : <RiLightbulbLine className="text-2xl" />}
+      onClick={() => publish(!state, brightnessValue)}
     >
-      <Slider value={parseInt(state === "OFF" ? "0" : brightness)} setValue={publishBrightness} max={255} />
+      <Slider
+        value={parseInt(state === "OFF" ? "0" : brightness)}
+        setValue={newBrightness => (newBrightness ? publish(true, newBrightness) : publish(false, brightnessValue))}
+        max={255}
+      />
     </Card>
   ) : (
     <Skeleton />
