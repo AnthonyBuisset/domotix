@@ -42,7 +42,7 @@ export const App = () => (
       <Route index element={<Navigate to={RoutePaths.Weather} replace />} />
       <Route path={RoutePaths.Weather} element={<Weather />} />
       <Route path={RoutePaths.Monitoring} element={<Monitoring />}>
-        <Route index element={<Navigate to={MonitoringRoutePaths.RaspberryPi} replace />} />
+        <Route index element={<Navigate to={MonitoringRoutePaths.Network} replace />} />
         <Route path={MonitoringRoutePaths.RaspberryPi} element={<RaspberryPi />} />
         <Route path={MonitoringRoutePaths.Ups} element={<Ups />} />
         <Route path={MonitoringRoutePaths.Network} element={<Network />} />

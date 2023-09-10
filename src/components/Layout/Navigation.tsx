@@ -5,19 +5,27 @@ import { RoutePaths } from "../../App";
 import { PropsWithChildren } from "react";
 import classNames from "classnames";
 import { BsGraphUp } from "react-icons/bs";
+import config from "../../config";
 
 export const Navigation = () => {
   return (
     <div className="z-50 h-16 w-full border-t border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
-      <div className="mx-auto grid h-full max-w-lg grid-cols-3 font-medium">
+      <div
+        className={classNames("mx-auto grid h-full max-w-lg font-medium", {
+          "grid-cols-3": config.PROFILE === "Antho",
+          "grid-cols-2": config.PROFILE === "Papa",
+        })}
+      >
         <Item to={RoutePaths.Weather}>
           <RiSunFill className="mb-2 h-6 w-6" />
           <p>Météo</p>
         </Item>
-        <Item to={RoutePaths.SmartHome}>
-          <SiHomeassistant className="mb-2 h-6 w-6" />
-          <p>Maison</p>
-        </Item>
+        {config.PROFILE === "Antho" && (
+          <Item to={RoutePaths.SmartHome}>
+            <SiHomeassistant className="mb-2 h-6 w-6" />
+            <p>Maison</p>
+          </Item>
+        )}
         <Item to={RoutePaths.Monitoring}>
           <BsGraphUp className="mb-2 h-6 w-6" />
           <p>Monitoring</p>
