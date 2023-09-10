@@ -27,7 +27,7 @@ export default function MqttMessagesCountChart() {
   const { data } = useInfluxDbQuery<Stat>(query.toString());
 
   return (
-    <Card title="Top 10 MQTT topics" className="relative">
+    <Card className="relative">
       <div className="absolute right-4 top-4">
         <Dropdown
           options={Object.entries(DropdownOptions).map(([value, label]) => ({ value, label }))}
@@ -35,6 +35,7 @@ export default function MqttMessagesCountChart() {
           onChange={option => setRange(option as Range)}
         />
       </div>
+      <h1 className="pb-2">Top 10 MQTT topics</h1>
       <ComposedChart
         layout="vertical"
         data={orderBy(data, ["_value", "topic"], ["desc", "asc"]).slice(0, 10)}

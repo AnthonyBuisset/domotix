@@ -25,7 +25,7 @@ export function Slider({ min = 0, max = 100, value, setValue }: Props) {
     <RangeSlider
       min={min}
       max={max}
-      className="w-full"
+      className="w-full text-base"
       value={inner}
       onChange={({ target }) => setInner(parseInt(target.value))}
     />

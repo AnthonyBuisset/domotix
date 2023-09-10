@@ -1,14 +1,15 @@
-import { ToggleSwitch } from "flowbite-react";
 import { Card } from "./Card";
-import { RiPlugFill } from "react-icons/ri";
+import { RiPlugFill, RiPlugLine } from "react-icons/ri";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
+import { PropsWithClassName } from "../utils";
+import classNames from "classnames";
 
 type Props = {
   title: string;
   topic: string;
-};
+} & PropsWithClassName;
 
-export default function Socket({ title, topic }: Props) {
+export default function Socket({ title, topic, className }: Props) {
   const [state, linkquality] = useJsonMqttValues({ topic, paths: ["$.state", "$.linkquality"] });
 
   const client = useMqttClient();
@@ -17,8 +18,13 @@ export default function Socket({ title, topic }: Props) {
     client?.publish(`${topic}/set`, JSON.stringify({ state: checked ? "on" : "off" }));
 
   return (
-    <Card title={title} icon={<RiPlugFill className="text-2xl" />} linkquality={linkquality}>
-      <ToggleSwitch checked={state === "ON"} label="" onChange={publishState} />
+    <Card
+      linkquality={linkquality}
+      onClick={() => publishState(!state)}
+      className={classNames("flex flex-col items-center gap-1 text-6xl", className)}
+    >
+      <h1 className="-mt-2">{title}</h1>
+      {state ? <RiPlugFill /> : <RiPlugLine />}
     </Card>
   );
 }

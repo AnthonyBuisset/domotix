@@ -47,7 +47,7 @@ export default function MqttMessagesChart() {
   const topics = chain(data).map("topic").sort().uniq().value();
 
   return (
-    <Card title="MQTT messages" className="relative grow">
+    <Card className="relative grow">
       <div className="absolute right-4 top-4">
         <Dropdown
           options={Object.entries(DropdownOptions).map(([value, label]) => ({ value, label }))}
@@ -55,6 +55,7 @@ export default function MqttMessagesChart() {
           onChange={option => setRange(option as Range)}
         />
       </div>
+      <h1 className="pb-2">MQTT messages</h1>
       <ResponsiveContainer minWidth={200} height={250}>
         <ComposedChart data={values} maxBarSize={16}>
           <XAxis type="category" dataKey="time" tickFormatter={formatDate} />
