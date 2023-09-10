@@ -16,8 +16,8 @@ export default function Network() {
 
   return (
     <div className="w-full p-2">
-      <Card
-        icon={
+      <Card>
+        <div className="mb-2 flex items-center gap-2">
           <Led
             value={
               connectionStatus === "Offline"
@@ -31,9 +31,8 @@ export default function Network() {
                 : Color.Grey
             }
           />
-        }
-        title="MQTT"
-      >
+          <h1>MQTT</h1>
+        </div>
         <div className="overflow-auto border border-dashed p-2">
           <h1 className="mb-3 border-b pb-1 text-xl font-medium">Latest messages</h1>
           {messages.map((m, index) => (

@@ -8,20 +8,24 @@ export default function Ups() {
 
   return (
     <div className="flex h-fit w-full flex-col gap-2">
-      <Card title="Input">
+      <Card>
+        <h1>Input</h1>
         <Gauge type={Type.Voltage5} label="USB" topic={Esp32Topic} valuePath="$.Vusb" />
         <Gauge type={Type.Voltage5} label="Batterie" topic={Esp32Topic} valuePath="$.Vbatt" />
       </Card>
-      <Card title="Output">
+      <Card>
+        <h1>Output</h1>
         <Gauge type={Type.Voltage5} label="User" topic={Esp32Topic} valuePath="$.Vuser" />
         <Gauge type={Type.Intensity} label="User" topic={Esp32Topic} valuePath="$.Iuser" />
       </Card>
-      <Card title="Internal">
+      <Card>
+        <h1>Internal</h1>
         <Gauge type={Type.Voltage5} label="UPS" topic={Esp32Topic} valuePath="$.Vups" />
         <Gauge type={Type.CpuTemperature} label="ESP32" topic={Esp32Topic} valuePath="$.TempESP32" />
         <Gauge type={Type.Decibels} topic={Esp32Topic} labelPath="$.SSID" valuePath="$.RSSI" />
       </Card>
-      <Card title="Control">
+      <Card>
+        <h1>Control</h1>
         <div className="grid grid-cols-2 gap-4">
           <div />
           <div className="flex items-center gap-4">
