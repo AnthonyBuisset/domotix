@@ -1,5 +1,3 @@
-import { useNow } from "../hooks/useNow";
-import { useWeatherForecast } from "../hooks/useWeatherForecast";
 import thermometerIcon from "/assets/weather-icons/fill/thermometer.svg";
 import humidityIcon from "/assets/weather-icons/fill/humidity.svg";
 import barometerIcon from "/assets/weather-icons/fill/barometer.svg";
@@ -8,6 +6,7 @@ import raindropIcon from "/assets/weather-icons/fill/raindrop.svg";
 import { useJsonMqttValues } from "../hooks/useMqtt";
 import { MdNavigation } from "react-icons/md";
 import { isDefined } from "../utils";
+import Clock from "./Weather/Clock";
 
 type Props = {
   topic: string;
@@ -53,22 +52,3 @@ export default function CurrentWeather({ topic }: Props) {
     </div>
   );
 }
-
-const Clock = () => {
-  const { weekday, date, hours, minutes, seconds } = useNow();
-  const forecast = useWeatherForecast();
-
-  return (
-    <div className="flex min-w-max flex-col items-center gap-1 p-2">
-      {forecast ? <img src={forecast?.current.weather[0].icon} className="w-20" /> : <div className="h-20" />}
-      <div>
-        {weekday} {date}
-      </div>
-      <div className="flex items-end gap-1">
-        <div className="text-4xl font-semibold">{hours}</div>
-        <div className="text-2xl">{minutes}</div>
-        <div className="text-2xl text-secondary">{seconds}</div>
-      </div>
-    </div>
-  );
-};
