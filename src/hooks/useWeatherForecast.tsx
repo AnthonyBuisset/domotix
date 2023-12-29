@@ -63,7 +63,7 @@ type Weather = {
   icon: string;
 };
 
-enum WeatherId {
+export enum WeatherId {
   ThunderstormWithLightRain = 200,
   ThunderstormWithRain = 201,
   ThunderstormWithHeavyRain = 202,

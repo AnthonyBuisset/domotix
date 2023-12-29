@@ -1,0 +1,67 @@
+import { WeatherId, useWeatherForecast } from "../../hooks/useWeatherForecast";
+import cloudsLow from "/assets/weather-animated-backgrounds/clouds-low.mp4";
+
+const VIDEOS: Record<WeatherId, string> = {
+  [WeatherId.ThunderstormWithLightRain]: cloudsLow,
+  [WeatherId.ThunderstormWithRain]: cloudsLow,
+  [WeatherId.ThunderstormWithHeavyRain]: cloudsLow,
+  [WeatherId.LightThunderstorm]: cloudsLow,
+  [WeatherId.Thunderstorm]: cloudsLow,
+  [WeatherId.HeavyThunderstorm]: cloudsLow,
+  [WeatherId.RaggedThunderstorm]: cloudsLow,
+  [WeatherId.ThunderstormWithLightDrizzle]: cloudsLow,
+  [WeatherId.ThunderstormWithDrizzle]: cloudsLow,
+  [WeatherId.ThunderstormWithHeavyDrizzle]: cloudsLow,
+  [WeatherId.LightIntensityDrizzle]: cloudsLow,
+  [WeatherId.Drizzle]: cloudsLow,
+  [WeatherId.HeavyIntensityDrizzle]: cloudsLow,
+  [WeatherId.LightIntensityDrizzleRain]: cloudsLow,
+  [WeatherId.DrizzleRain]: cloudsLow,
+  [WeatherId.HeavyIntensityDrizzleRain]: cloudsLow,
+  [WeatherId.ShowerRainAndDrizzle]: cloudsLow,
+  [WeatherId.HeavyShowerRainAndDrizzle]: cloudsLow,
+  [WeatherId.ShowerDrizzle]: cloudsLow,
+  [WeatherId.LightRain]: cloudsLow,
+  [WeatherId.ModerateRain]: cloudsLow,
+  [WeatherId.HeavyIntensityRain]: cloudsLow,
+  [WeatherId.VeryHeavyRain]: cloudsLow,
+  [WeatherId.ExtremeRain]: cloudsLow,
+  [WeatherId.FreezingRain]: cloudsLow,
+  [WeatherId.LightIntensityShowerRain]: cloudsLow,
+  [WeatherId.ShowerRain]: cloudsLow,
+  [WeatherId.HeavyIntensityShowerRain]: cloudsLow,
+  [WeatherId.RaggedShowerRain]: cloudsLow,
+  [WeatherId.LightSnow]: cloudsLow,
+  [WeatherId.Snow]: cloudsLow,
+  [WeatherId.HeavySnow]: cloudsLow,
+  [WeatherId.Sleet]: cloudsLow,
+  [WeatherId.LightShowerSleet]: cloudsLow,
+  [WeatherId.ShowerSleet]: cloudsLow,
+  [WeatherId.LightRainAndSnow]: cloudsLow,
+  [WeatherId.RainAndSnow]: cloudsLow,
+  [WeatherId.LightShowerSnow]: cloudsLow,
+  [WeatherId.ShowerSnow]: cloudsLow,
+  [WeatherId.HeavyShowerSnow]: cloudsLow,
+  [WeatherId.Mist]: cloudsLow,
+  [WeatherId.Smoke]: cloudsLow,
+  [WeatherId.Haze]: cloudsLow,
+  [WeatherId.SandDustWhirls]: cloudsLow,
+  [WeatherId.Fog]: cloudsLow,
+  [WeatherId.Sand]: cloudsLow,
+  [WeatherId.Dust]: cloudsLow,
+  [WeatherId.VolcanicAsh]: cloudsLow,
+  [WeatherId.Squalls]: cloudsLow,
+  [WeatherId.Tornado]: cloudsLow,
+  [WeatherId.ClearSky]: cloudsLow,
+  [WeatherId.FewClouds]: cloudsLow,
+  [WeatherId.ScatteredClouds]: cloudsLow,
+  [WeatherId.BrokenClouds]: cloudsLow,
+  [WeatherId.OvercastClouds]: cloudsLow,
+};
+
+export default function Background() {
+  const forecast = useWeatherForecast();
+  const video = forecast?.current.weather[0].id && VIDEOS[forecast?.current.weather[0].id];
+
+  return <video autoPlay loop muted src={video} className="fixed -z-10" />;
+}
