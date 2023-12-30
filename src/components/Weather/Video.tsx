@@ -59,9 +59,9 @@ const VIDEOS: Record<WeatherId, string> = {
   [WeatherId.OvercastClouds]: cloudsLow,
 };
 
-export default function Background() {
+export default function Video() {
   const forecast = useWeatherForecast();
   const video = forecast?.current.weather[0].id && VIDEOS[forecast?.current.weather[0].id];
 
-  return <video autoPlay loop muted src={video} className="fixed -z-10" />;
+  return <video autoPlay loop muted src={video} />;
 }
