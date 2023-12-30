@@ -4,6 +4,7 @@ import { lazy } from "react";
 import Layout from "./components/Layout";
 
 const Weather = lazy(() => import("./pages/Weather"));
+const Cameras = lazy(() => import("./pages/Cameras"));
 const Ups = lazy(() => import("./pages/Monitoring/Ups"));
 const Monitoring = lazy(() => import("./pages/Monitoring"));
 const Home = lazy(() => import("./pages/Home"));
@@ -19,6 +20,7 @@ export enum RoutePaths {
   Weather = "/weather",
   Monitoring = "/monitoring",
   SmartHome = "/home",
+  Cameras = "/cameras",
 }
 
 export enum SmartHomeRoutePaths {
@@ -41,6 +43,7 @@ export const App = () => (
     <Route path={RoutePaths.Home} element={<Layout />}>
       <Route index element={<Navigate to={RoutePaths.Weather} replace />} />
       <Route path={RoutePaths.Weather} element={<Weather />} />
+      <Route path={RoutePaths.Cameras} element={<Cameras />} />
       <Route path={RoutePaths.Monitoring} element={<Monitoring />}>
         <Route index element={<Navigate to={MonitoringRoutePaths.Network} replace />} />
         <Route path={MonitoringRoutePaths.RaspberryPi} element={<RaspberryPi />} />

@@ -6,4 +6,5 @@ export default {
   INFLUXDB_API_TOKEN: import.meta.env.VITE_INFLUXDB_API_TOKEN,
   INFLUXDB_ORG: import.meta.env.VITE_INFLUXDB_ORG,
   PROFILE: import.meta.env.VITE_PROFILE,
+  MOTION_BASE_URL: import.meta.env.VITE_MOTION_BASE_URL
 };
