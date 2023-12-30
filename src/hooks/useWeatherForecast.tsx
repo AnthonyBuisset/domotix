@@ -218,7 +218,6 @@ const fetchData = async (): Promise<Response> => {
   url.searchParams.append("appid", config.OPENWEATHERMAP_API_KEY);
 
   const data: Response = await fetch(url.href).then(response => response.json());
-
   data.current.weather.forEach(w => (w.icon = ICONS[w.id]));
 
   data.daily.forEach(d => (d.date = new Date(d.dt * 1000)));
