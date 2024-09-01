@@ -8,6 +8,7 @@ import { MdNavigation } from "react-icons/md";
 import { isDefined } from "../utils";
 import Clock from "./Weather/Clock";
 import Wind from "./Weather/Wind.tsx";
+import { useWeatherForecast } from "../hooks/useWeatherForecast.tsx";
 
 type Props = {
   topic: string;
@@ -19,9 +20,14 @@ export default function CurrentWeather({ topic }: Props) {
     paths: ["$.Heat", "$.Hum", "$.Pres", "$.RainFall", "$.RainToday", "$.WindDir", "$.WindGust", "$.WindSpeed"],
   });
 
+  const w = useWeatherForecast();
+
   return (
-    <div className="flex flex-col items-center sm:flex-row sm:gap-8">
-      <Clock />
+    <div className="flex w-full flex-col items-center sm:flex-row sm:gap-8">
+      <div className="flex w-full flex-row items-center justify-between px-4">
+        <img src={w?.current.weather[0].icon} className="w-36" alt={w?.current.weather[0].main} />
+        <Clock />
+      </div>
       <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} />
       {isDefined(temperature) && (
         <div className="mt-6 grid grid-flow-col grid-rows-3 gap-x-4 gap-y-1">
