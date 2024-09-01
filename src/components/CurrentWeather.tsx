@@ -17,7 +17,7 @@ type Props = {
 export default function CurrentWeather({ topic }: Props) {
   const [temperature, humidity, pressure, rainFall, rainToday, windDirection, windGust, windSpeed] = useJsonMqttValues({
     topic,
-    paths: ["$.Heat", "$.Hum", "$.Pres", "$.RainFall", "$.RainToday", "$.WindDir", "$.WindGust", "$.WindSpeed"],
+    paths: ["$.TempDHT", "$.Hum", "$.Pres", "$.RainFall", "$.RainToday", "$.WindDir", "$.WindGust", "$.WindSpeed"],
   });
 
   const w = useWeatherForecast();
