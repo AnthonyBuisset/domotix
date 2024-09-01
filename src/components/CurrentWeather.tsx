@@ -23,40 +23,42 @@ export default function CurrentWeather({ topic }: Props) {
   const w = useWeatherForecast();
 
   return (
-    <div className="flex w-full flex-col items-center sm:flex-row sm:gap-8">
-      <div className="flex w-full flex-row items-center justify-between px-4">
+    <div className="flex w-full flex-col items-center sm:flex-col sm:gap-8">
+      <div className="flex w-full flex-row items-center justify-between px-4 sm:flex-col md:flex-row md:justify-center">
         <img src={w?.current.weather[0].icon} className="w-36" alt={w?.current.weather[0].main} />
         <Clock />
       </div>
-      <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} />
-      {isDefined(temperature) && (
-        <div className="mt-6 grid grid-flow-col grid-rows-3 gap-x-4 gap-y-1">
-          <div className="flex items-center gap-2">
-            <img src={thermometerIcon} className="h-10 w-10" />
-            {temperature} °C
+      <div className="flex flex-row items-center gap-2">
+        <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} />
+        {isDefined(temperature) && (
+          <div className="mt-6 grid grid-flow-col grid-rows-3 gap-x-4 gap-y-1">
+            <div className="flex items-center gap-2">
+              <img src={thermometerIcon} className="h-10 w-10" />
+              {temperature} °C
+            </div>
+            <div className="flex items-center gap-2">
+              <img src={humidityIcon} className="h-10 w-10" />
+              {parseFloat(humidity).toFixed(0)}%
+            </div>
+            <div className="flex items-center gap-2">
+              <img src={barometerIcon} className="h-10 w-10" />
+              {parseFloat(pressure).toFixed(0)} hPa
+            </div>
+            <div className="flex items-center gap-2">
+              <MdNavigation className="h-6 w-10" style={{ rotate: `${windDirection}deg` }} />
+              {windSpeed} km/h
+            </div>
+            <div className="flex items-center gap-2">
+              <img src={windIcon} className="h-10 w-10" />
+              {windGust} km/h
+            </div>
+            <div className="flex items-center gap-2">
+              <img src={raindropIcon} className="h-10 w-10" />
+              {rainFall} {"("} {rainToday} {")"}
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <img src={humidityIcon} className="h-10 w-10" />
-            {parseFloat(humidity).toFixed(0)}%
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={barometerIcon} className="h-10 w-10" />
-            {parseFloat(pressure).toFixed(0)} hPa
-          </div>
-          <div className="flex items-center gap-2">
-            <MdNavigation className="h-6 w-10" style={{ rotate: `${windDirection}deg` }} />
-            {windSpeed} km/h
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={windIcon} className="h-10 w-10" />
-            {windGust} km/h
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={raindropIcon} className="h-10 w-10" />
-            {rainFall} {"("} {rainToday} {")"}
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
