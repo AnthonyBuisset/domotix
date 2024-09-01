@@ -1,4 +1,3 @@
-import windIcon from "/assets/weather-icons/fill/wind.svg";
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
 import { range } from "lodash";
@@ -7,10 +6,9 @@ import { BsTriangleFill } from "react-icons/bs";
 type Props = {
   speed: number;
   direction: number;
-  gust: number;
 };
 
-export default function Wind({ speed, direction, gust }: Props) {
+export default function Wind({ speed, direction }: Props) {
   const ref = useRef<SVGSVGElement>(null);
 
   const size = 120;
@@ -61,10 +59,6 @@ export default function Wind({ speed, direction, gust }: Props) {
       </div>
       <div className="flex h-full w-full flex-col items-center justify-center">
         <span className="text-base font-semibold">{speed} km/h</span>
-        <div className="flex items-center text-xs">
-          <img src={windIcon} className="w-4" />
-          <span>{gust} km/h</span>
-        </div>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export default function CurrentWeather({ topic }: Props) {
   return (
     <div className="flex flex-col items-center sm:flex-row sm:gap-8">
       <Clock />
-      <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} gust={parseFloat(windGust)}/>
+      <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} />
       {isDefined(temperature) && (
         <div className="mt-6 grid grid-flow-col grid-rows-3 gap-x-4 gap-y-1">
           <div className="flex items-center gap-2">
