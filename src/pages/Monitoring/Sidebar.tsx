@@ -7,7 +7,7 @@ import config from "../../config";
 export const Sidebar = () => (
   <Base
     items={
-      config.PROFILE === "ANTHO"
+      config.PROFILE === "Antho"
         ? [
             { name: "Network", icon: <FaNetworkWired />, to: MonitoringRoutePaths.Network },
             { name: "Raspberry Pi", icon: <FaRaspberryPi />, to: MonitoringRoutePaths.RaspberryPi },
