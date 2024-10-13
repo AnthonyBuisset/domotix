@@ -7,7 +7,7 @@ import { Connector } from "mqtt-react-hooks";
 import config from "./config.ts";
 import { App } from "./App.tsx";
 import { WeatherForecastProvider } from "./hooks/useWeatherForecast.tsx";
-import { ToastContainer } from "react-toastify";
+import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <main className="h-screen overflow-auto bg-background text-foreground dark">
             <App />
           </main>
-          <ToastContainer />
+          <ToastContainer theme="dark" transition={Flip} />
         </WeatherForecastProvider>
       </Router>
     </Connector>
