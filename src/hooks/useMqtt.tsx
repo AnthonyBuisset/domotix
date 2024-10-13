@@ -1,21 +1,30 @@
 import jp from "jsonpath";
 import { useMqttState, useSubscription } from "mqtt-react-hooks";
-import { useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
+import { toast } from "react-toastify";
 
 type Props = {
   topic: string;
 };
 
 export const useMqttValue = ({ topic }: Props): string | undefined => {
-  const { message } = useSubscription(topic);
-  const [cachedMessage, setCachedMessage] = useLocalStorage(topic, message);
+  const { message, connectionStatus } = useSubscription(topic);
 
-  useEffect(() => {
-    if (message !== undefined) setCachedMessage(message);
-  }, [message]);
+  switch (connectionStatus) {
+    case "Offline":
+      toast.error("MQTT is offline", { toastId: "mqtt-offline" });
+      break;
+    case "Reconnecting":
+      toast.info("MQTT is reconnecting", { toastId: "mqtt-reconnecting" });
+      break;
+    case "Connecting":
+    case "Connected":
+      break;
+    default:
+      toast.error("MQTT is in an unknown state", { toastId: "mqtt-unknown" });
+      break;
+  }
 
-  return (message ?? cachedMessage)?.message?.toString().replace("\n", "");
+  return message?.message?.toString().replace("\n", "");
 };
 
 type JsonProps = {
