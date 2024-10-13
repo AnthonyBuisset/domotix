@@ -8,7 +8,9 @@ then
     exit 1
 fi
 
-if [ `ping -t 1 -c 1 home.local > /dev/null`]
+ping -t 1 -c 1 home.local > /dev/null
+
+if [ $? -eq 0 ]
 then
     # Antho
     TARGET=pi@home.local:/var/www/html
