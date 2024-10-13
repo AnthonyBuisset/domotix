@@ -1,12 +1,12 @@
 import { Bar, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import useInfluxDbQuery from "../hooks/useInfluxDbQuery";
-import { DeviceCard } from "./DeviceCard.tsx";
 import { flux } from "@influxdata/influxdb-client-browser";
 import { useState } from "react";
 import { chain } from "lodash";
 import { duration, formatDateTime, Range, timeInterval } from "../utils/influxdb/range";
 import { Colors, Tooltip as GraphTooltip } from "../utils/graph";
 import { TimeRangeDropDown } from "./TimeRangeDropDown.tsx";
+import { Card } from "@nextui-org/react";
 
 type Stat = {
   _time: string;
@@ -47,9 +47,9 @@ export default function MqttMessagesChart() {
   const topics = chain(data).map("topic").sort().uniq().value();
 
   return (
-    <DeviceCard className="relative grow">
+    <Card className="relative grow p-4">
       <div className="absolute right-4 top-4">
-        <TimeRangeDropDown onChange={key => setRange(key as Range)} />
+        <TimeRangeDropDown value={range} onChange={key => setRange(key as Range)} />
       </div>
       <h1 className="pb-2">MQTT messages</h1>
       <ResponsiveContainer minWidth={200} height={250}>
@@ -63,7 +63,7 @@ export default function MqttMessagesChart() {
           <Tooltip content={<CustomTooltip />} />
         </ComposedChart>
       </ResponsiveContainer>
-    </DeviceCard>
+    </Card>
   );
 }
 
