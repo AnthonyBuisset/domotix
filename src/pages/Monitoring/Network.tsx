@@ -1,7 +1,7 @@
 import { useSubscription } from "mqtt-react-hooks";
 import { Color } from "../../components/Led";
 import { View as Led } from "../../components/Led/View";
-import { Card } from "../../components/Card";
+import { DeviceCard } from "../../components/DeviceCard.tsx";
 import { useEffect, useState } from "react";
 
 export default function Network() {
@@ -16,7 +16,7 @@ export default function Network() {
 
   return (
     <div className="w-full p-2">
-      <Card>
+      <DeviceCard>
         <div className="mb-2 flex items-center gap-2">
           <Led
             value={
@@ -41,7 +41,7 @@ export default function Network() {
             </p>
           ))}
         </div>
-      </Card>
+      </DeviceCard>
     </div>
   );
 }

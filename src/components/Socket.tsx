@@ -1,4 +1,4 @@
-import { Card } from "./Card";
+import { DeviceCard } from "./DeviceCard.tsx";
 import { RiPlugFill, RiPlugLine } from "react-icons/ri";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
 import { PropsWithClassName } from "../utils";
@@ -18,13 +18,14 @@ export default function Socket({ title, topic, className }: Props) {
     client?.publish(`${topic}/set`, JSON.stringify({ state: checked ? "on" : "off" }));
 
   return (
-    <Card
-      linkquality={linkquality}
-      onClick={() => publishState(!state)}
+    <DeviceCard
+      linkQuality={linkquality}
       className={classNames("flex flex-col items-center gap-1 text-6xl", className)}
+      isPressable
+      onPress={() => publishState(!state)}
     >
       <h1 className="-mt-2">{title}</h1>
-      {state ? <RiPlugFill /> : <RiPlugLine />}
-    </Card>
+      <div className="flex justify-around">{state ? <RiPlugFill /> : <RiPlugLine />}</div>
+    </DeviceCard>
   );
 }

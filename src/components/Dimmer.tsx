@@ -1,8 +1,8 @@
 import { RiLightbulbFill, RiLightbulbLine } from "react-icons/ri";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
-import { Slider } from "./Slider";
-import { Card } from "./Card";
-import { PropsWithClassName, isDefined } from "../utils";
+import { DeviceCard } from "./DeviceCard.tsx";
+import { isDefined, PropsWithClassName } from "../utils";
+import { Button, Slider, SliderValue } from "@nextui-org/react";
 
 type Props = {
   title: string;
@@ -11,14 +11,13 @@ type Props = {
 
 export function Dimmer({ topic, className }: Props) {
   const client = useMqttClient();
-  const [brightness, stateStr, linkquality] = useJsonMqttValues({
+  const [currentBrightnessStr, currentStateStr, linkQuality] = useJsonMqttValues({
     topic,
     paths: ["$.brightness_l1", "$.state_l1", "$.linkquality"],
   });
 
-  const state = stateStr === "ON";
-
-  const brightnessValue = parseInt(brightness);
+  const currentState = currentStateStr === "ON";
+  const currentBrightness = parseInt(currentBrightnessStr);
 
   const publish = (state: boolean, brightness: number) =>
     client?.publish(
@@ -26,18 +25,31 @@ export function Dimmer({ topic, className }: Props) {
       JSON.stringify({ brightness_l1: state && !brightness ? 255 : brightness, state_l1: state ? "ON" : "OFF" })
     );
 
-  return isDefined(brightness) ? (
-    <Card linkquality={linkquality} onClick={() => publish(!state, brightnessValue)} className={className}>
-      <div className="flex h-full items-center gap-1 text-6xl">
-        {state ? <RiLightbulbFill /> : <RiLightbulbLine />}
+  const onSliderChange = (value: SliderValue) => {
+    if (typeof value === "number") {
+      value ? publish(true, value) : publish(false, currentBrightness);
+    }
+  };
+
+  return isDefined(currentBrightness) ? (
+    <DeviceCard linkQuality={linkQuality} className={className}>
+      <div className="flex h-full items-center gap-1">
+        <Button
+          size="lg"
+          variant="light"
+          color={currentState ? "default" : "secondary"}
+          isIconOnly
+          onClick={() => publish(!currentState, currentBrightness)}
+        >
+          {currentState ? <RiLightbulbFill size={60} /> : <RiLightbulbLine size={60} />}
+        </Button>
         <Slider
-          value={parseInt(state ? brightness : "0")}
-          setValue={newBrightness => (newBrightness ? publish(true, newBrightness) : publish(false, brightnessValue))}
-          max={255}
+          aria-label={topic}
+          value={currentState ? currentBrightness : 0}
+          onChangeEnd={onSliderChange}
+          maxValue={255}
         />
       </div>
-    </Card>
-  ) : (
-    <></>
-  );
+    </DeviceCard>
+  ) : null;
 }

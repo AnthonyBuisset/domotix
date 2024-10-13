@@ -1,7 +1,7 @@
 import { InfluxDB } from "@influxdata/influxdb-client-browser";
 import { useEffect, useState } from "react";
 import config from "../config";
-import { useAlert } from "./useAlert";
+import { toast } from "react-toastify";
 
 const API = new InfluxDB({ url: config.INFLUXDB_URL, token: config.INFLUXDB_API_TOKEN }).getQueryApi(
   config.INFLUXDB_ORG
@@ -10,8 +10,6 @@ const API = new InfluxDB({ url: config.INFLUXDB_URL, token: config.INFLUXDB_API_
 export default function useInfluxDbQuery<R>(query: string): { data?: R[]; loading: boolean } {
   const [data, setData] = useState<R[]>();
   const [loading, setLoading] = useState(false);
-
-  const { alert } = useAlert();
 
   useEffect(() => {
     const rows: R[] = [];
@@ -26,7 +24,7 @@ export default function useInfluxDbQuery<R>(query: string): { data?: R[]; loadin
       },
       error(error) {
         setLoading(false);
-        alert(error.toString());
+        toast.error(error.toString());
       },
     });
   }, [query]);

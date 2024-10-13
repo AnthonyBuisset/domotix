@@ -1,5 +1,3 @@
-import { PropsWithChildren } from "react";
-import { Tooltip } from "flowbite-react";
 import {
   RiBatteryFill,
   RiBatteryLine,
@@ -11,38 +9,33 @@ import {
   RiSignalWifiFill,
 } from "react-icons/ri";
 import classNames from "classnames";
-interface Props extends PropsWithChildren {
-  className?: string;
-  linkquality?: string | number;
-  battery?: string | number;
-  onClick?: () => void;
-}
+import { Card, CardProps, Tooltip } from "@nextui-org/react";
 
-export const Card = ({ className, linkquality, battery, onClick, children }: Props) => (
-  <div
-    className={classNames(
-      "relative rounded-lg border border-gray-300 bg-gray-200 p-4 shadow dark:border-gray-700 dark:bg-white/[0.02]",
-      className,
-      {
-        "cursor-pointer hover:bg-white/5": onClick,
-      }
-    )}
-    onClick={onClick}
-  >
+type Props = CardProps & {
+  linkQuality?: string | number;
+  battery?: string | number;
+};
+
+export const DeviceCard = ({ linkQuality, battery, className, children, ...rest }: Props) => (
+  <Card className={classNames("relative", "p-4", className)} {...rest}>
     <div className="absolute right-1 top-1 flex items-center gap-1 text-lg">
-      {linkquality !== undefined && (
-        <Tooltip content={`${linkquality}%`}>
-          <LinkQuality value={toNumber(linkquality)} />
+      {linkQuality !== undefined && (
+        <Tooltip content={`${linkQuality}%`}>
+          <div>
+            <LinkQuality value={toNumber(linkQuality)} />
+          </div>
         </Tooltip>
       )}
       {battery !== undefined && (
         <Tooltip content={`${battery}%`}>
-          <Battery value={toNumber(battery)} />
+          <div>
+            <Battery value={toNumber(battery)} />
+          </div>
         </Tooltip>
       )}
     </div>
-    {children}
-  </div>
+    <div className="h-full w-full">{children}</div>
+  </Card>
 );
 
 type InnerProps = {

@@ -15,9 +15,9 @@ import fog from "/assets/weather-icons/fill/fog.svg";
 import tornado from "/assets/weather-icons/fill/tornado.svg";
 import cloudy from "/assets/weather-icons/fill/cloudy.svg";
 import overcast from "/assets/weather-icons/fill/overcast.svg";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { useEffectOnce } from "usehooks-ts";
-import { useAlert } from "./useAlert";
+import { toast } from "react-toastify";
 
 type Response = {
   lat: number;
@@ -185,14 +185,13 @@ const WeatherForecastContext = createContext<WeatherForecast | null>(null);
 
 export const WeatherForecastProvider = ({ children }: PropsWithChildren) => {
   const [data, setData] = useState<Response | null>(null);
-  const { alert } = useAlert();
 
   useEffectOnce(() => {
     const refresh = () =>
       fetchData()
         .then(setData)
         .catch(e => {
-          alert("Erreur durant la mise à jour des prévisions météo");
+          toast.error("Erreur durant la mise à jour des prévisions météo");
           console.error(e);
         });
     refresh();

@@ -1,12 +1,12 @@
 import { Bar, ComposedChart, Label, Tooltip, XAxis, YAxis } from "recharts";
 import useInfluxDbQuery from "../hooks/useInfluxDbQuery";
-import { Card } from "./Card";
+import { DeviceCard } from "./DeviceCard.tsx";
 import { flux } from "@influxdata/influxdb-client-browser";
 import { useState } from "react";
-import Dropdown from "./Dropdown";
 import { orderBy } from "lodash";
-import { DropdownOptions, Range, duration } from "../utils/influxdb/range";
+import { duration, Range } from "../utils/influxdb/range";
 import { Colors, Tooltip as GraphTooltip } from "../utils/graph";
+import { TimeRangeDropDown } from "./TimeRangeDropDown.tsx";
 
 type Stat = {
   topic: string;
@@ -27,13 +27,9 @@ export default function MqttMessagesCountChart() {
   const { data } = useInfluxDbQuery<Stat>(query.toString());
 
   return (
-    <Card className="relative">
+    <DeviceCard className="relative">
       <div className="absolute right-4 top-4">
-        <Dropdown
-          options={Object.entries(DropdownOptions).map(([value, label]) => ({ value, label }))}
-          label={DropdownOptions[range]}
-          onChange={option => setRange(option as Range)}
-        />
+        <TimeRangeDropDown onChange={key => setRange(key as Range)} />
       </div>
       <h1 className="pb-2">Top 10 MQTT topics</h1>
       <ComposedChart
@@ -57,7 +53,7 @@ export default function MqttMessagesCountChart() {
         <Tooltip content={<CustomTooltip />} />
         <Label />
       </ComposedChart>
-    </Card>
+    </DeviceCard>
   );
 }
 

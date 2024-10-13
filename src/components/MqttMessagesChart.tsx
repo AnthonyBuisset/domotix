@@ -1,12 +1,12 @@
 import { Bar, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import useInfluxDbQuery from "../hooks/useInfluxDbQuery";
-import { Card } from "./Card";
+import { DeviceCard } from "./DeviceCard.tsx";
 import { flux } from "@influxdata/influxdb-client-browser";
 import { useState } from "react";
-import Dropdown from "./Dropdown";
 import { chain } from "lodash";
-import { DropdownOptions, Range, duration, formatDateTime, timeInterval } from "../utils/influxdb/range";
+import { duration, formatDateTime, Range, timeInterval } from "../utils/influxdb/range";
 import { Colors, Tooltip as GraphTooltip } from "../utils/graph";
+import { TimeRangeDropDown } from "./TimeRangeDropDown.tsx";
 
 type Stat = {
   _time: string;
@@ -47,13 +47,9 @@ export default function MqttMessagesChart() {
   const topics = chain(data).map("topic").sort().uniq().value();
 
   return (
-    <Card className="relative grow">
+    <DeviceCard className="relative grow">
       <div className="absolute right-4 top-4">
-        <Dropdown
-          options={Object.entries(DropdownOptions).map(([value, label]) => ({ value, label }))}
-          label={DropdownOptions[range]}
-          onChange={option => setRange(option as Range)}
-        />
+        <TimeRangeDropDown onChange={key => setRange(key as Range)} />
       </div>
       <h1 className="pb-2">MQTT messages</h1>
       <ResponsiveContainer minWidth={200} height={250}>
@@ -67,7 +63,7 @@ export default function MqttMessagesChart() {
           <Tooltip content={<CustomTooltip />} />
         </ComposedChart>
       </ResponsiveContainer>
-    </Card>
+    </DeviceCard>
   );
 }
 
@@ -85,16 +81,18 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
           {new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(label))}
         </p>
         <div className="inline-grid gap-x-3" style={{ gridTemplateColumns: "auto auto" }}>
-          {payload.map(({ name, value, fill }) => (
-            <>
-              <p key={`name-${name}`} style={{ color: fill }}>
-                {name}
-              </p>
-              <p key={`value-${name}`} style={{ color: fill }}>
-                {value}
-              </p>
-            </>
-          ))}
+          {payload
+            .sort((l, r) => r.value - l.value)
+            .map(({ name, value, fill }) => (
+              <>
+                <p key={`name-${name}`} style={{ color: fill }}>
+                  {name}
+                </p>
+                <p key={`value-${name}`} style={{ color: fill }}>
+                  {value}
+                </p>
+              </>
+            ))}
         </div>
       </GraphTooltip>
     );

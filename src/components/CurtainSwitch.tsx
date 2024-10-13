@@ -1,11 +1,11 @@
-import { Open as ShutterOpen, Closed as ShutterClosed } from "../icons/Shutters";
+import { Closed as ShutterClosed, Open as ShutterOpen } from "../icons/Shutters";
 import { useJsonMqttValues, useMqttClient } from "../hooks/useMqtt";
-import { Slider } from "./Slider";
 import { useEffect, useState } from "react";
-import { Card } from "./Card";
+import { DeviceCard } from "./DeviceCard.tsx";
 import { RiArrowDownSLine, RiArrowUpSLine, RiEqualizerFill, RiEqualizerLine } from "react-icons/ri";
-import { PropsWithClassName, isDefined } from "../utils";
+import { isDefined, PropsWithClassName } from "../utils";
 import classNames from "classnames";
+import { Button, Slider } from "@nextui-org/react";
 
 type Props = {
   title?: string;
@@ -31,44 +31,49 @@ export function CurtainSwitch({ title, topic, className }: Props) {
     client?.publish(`${topic}/set`, JSON.stringify({ calibration: calibration === "ON" ? "OFF" : "ON" }));
 
   return isDefined(finalPosition) ? (
-    <Card linkquality={linkquality} onClick={() => publishPosition(finalPosition ? 0 : 100)} className={className}>
+    <DeviceCard linkQuality={linkquality} className={className}>
       <h1 className="-my-2 text-center">{title}</h1>
       <div className="flex flex-row items-center gap-2 text-6xl">
         <div className="relative flex flex-row items-center">
           <div
-            className={classNames("absolute grow px-1.5 text-5xl", {
+            className={classNames("absolute grow text-5xl", {
               "-bottom-7": moving === "DOWN",
               "-top-7": moving === "UP",
             })}
           >
             {moving === "UP" ? <RiArrowUpSLine /> : moving === "DOWN" ? <RiArrowDownSLine /> : <></>}
           </div>
-          {finalPosition ? <ShutterOpen size={60} /> : <ShutterClosed size={60} />}
+          <Button
+            size="lg"
+            variant="light"
+            color={finalPosition ? "default" : "secondary"}
+            isIconOnly
+            onClick={() => publishPosition(finalPosition ? 0 : 100)}
+          >
+            {finalPosition ? <ShutterOpen size={60} /> : <ShutterClosed size={60} />}
+          </Button>
         </div>
         <Slider
+          aria-label={topic}
           value={finalPosition}
-          setValue={position => {
-            publishPosition(position);
-            setFinalPosition(position);
+          onChangeEnd={position => {
+            if (typeof position === "number") {
+              publishPosition(position);
+              setFinalPosition(position);
+            }
           }}
-          max={100}
         />
-        <button
-          className="text-3xl"
-          onClick={e => {
-            e.preventDefault();
-            toggleCalibration();
-            e.stopPropagation();
-          }}
+        <Button
+          size="lg"
+          variant="light"
+          color={calibration === "ON" ? "default" : "secondary"}
+          isIconOnly
+          onClick={toggleCalibration}
         >
-          {calibration === "ON" ? (
-            <RiEqualizerFill className="text-black dark:text-white" />
-          ) : (
-            <RiEqualizerLine className="text-gray-200 dark:text-gray-600" />
-          )}
-        </button>
+          {calibration === "ON" ? <RiEqualizerFill size={30} /> : <RiEqualizerLine size={30} />}
+        </Button>
       </div>
-    </Card>
+    </DeviceCard>
   ) : (
     <></>
   );

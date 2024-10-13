@@ -3,7 +3,7 @@ import humidity from "/assets/weather-icons/fill/humidity.svg";
 import barometer from "/assets/weather-icons/fill/barometer.svg";
 import { useJsonMqttValues } from "../hooks/useMqtt";
 import GaugeComponent from "react-gauge-component";
-import { Card } from "./Card";
+import { DeviceCard } from "./DeviceCard.tsx";
 
 type Props = {
   topic: string;
@@ -17,7 +17,7 @@ export default function THB({ topic, className }: Props) {
   });
 
   return (
-    <Card className={className} linkquality={linkquality} battery={battery}>
+    <DeviceCard className={className} linkQuality={linkquality} battery={battery}>
       <div className="flex items-center">
         {temperature !== undefined && <Temperature value={parseFloat(temperature)} />}
         <div className="flex min-w-max grow flex-col">
@@ -25,7 +25,7 @@ export default function THB({ topic, className }: Props) {
           <Barometer value={parseFloat(barometer)} />
         </div>
       </div>
-    </Card>
+    </DeviceCard>
   );
 }
 

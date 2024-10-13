@@ -1,6 +1,6 @@
 import { format } from "../hooks/useNow";
 import { useWeatherForecast } from "../hooks/useWeatherForecast";
-import { Card } from "./Card";
+import { DeviceCard } from "./DeviceCard.tsx";
 import thermometerWarmer from "/assets/weather-icons/fill/thermometer-warmer.svg";
 import thermometerCooler from "/assets/weather-icons/fill/thermometer-colder.svg";
 import wind from "/assets/weather-icons/fill/wind.svg";
@@ -13,7 +13,7 @@ export const WeatherForecast = () => {
       {forecast?.daily.slice(1).map(f => {
         const { weekday, day, month } = format(f.date);
         return (
-          <Card key={f.dt} className="lg:h-fit">
+          <DeviceCard key={f.dt} className="lg:h-fit">
             <div className="flex flex-row items-center justify-between gap-4 lg:flex-col">
               <div className="flex flex-col items-center gap-1 sm:flex-row lg:flex-col">
                 <span>{weekday}</span>
@@ -36,7 +36,7 @@ export const WeatherForecast = () => {
                 {(f.wind_speed * 3.6).toFixed(0)} km/h
               </div>
             </div>
-          </Card>
+          </DeviceCard>
         );
       })}
     </div>
