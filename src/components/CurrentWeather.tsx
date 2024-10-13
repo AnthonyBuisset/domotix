@@ -29,8 +29,8 @@ export default function CurrentWeather({ topic }: Props) {
         <Clock />
       </div>
       <div className="flex flex-row items-center gap-2">
-        <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} />
-        {isDefined(temperature) && (
+        {isDefined(windDirection) ? <Wind speed={parseFloat(windSpeed)} direction={parseFloat(windDirection)} /> : null}
+        {isDefined(temperature) ? (
           <div className="mt-6 grid grid-flow-col grid-rows-3 gap-x-4 gap-y-1">
             <div className="flex items-center gap-2">
               <img src={thermometerIcon} className="h-10 w-10" />
@@ -57,7 +57,7 @@ export default function CurrentWeather({ topic }: Props) {
               {rainFall} {"("} {rainToday} {")"}
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
