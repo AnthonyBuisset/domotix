@@ -7,6 +7,7 @@ import { duration, formatDateTime, Range, timeInterval } from "../utils/influxdb
 import { Colors, Tooltip as GraphTooltip } from "../utils/graph";
 import { TimeRangeDropDown } from "./TimeRangeDropDown.tsx";
 import { Card } from "@nextui-org/react";
+import config from "../config.ts";
 
 type Stat = {
   _time: string;
@@ -20,9 +21,9 @@ export default function MqttMessagesChart() {
   const formatDate = (date: string) => formatDateTime(new Date(date), range);
 
   const query = flux`
-  from(bucket: "smarthome")
+  from(bucket: "${config.INFLUXDB_BUCKET}")
     |> range(start: ${duration(range)})
-    |> filter(fn: (r) => r._measurement == "mqtt-message" )
+    |> filter(fn: (r) => r._measurement == "${config.INFLUXDB_MEASUREMENT}" )
     |> window(every: ${timeInterval(range)})
     |> count()
     |> duplicate(column: "_stop", as: "_time")

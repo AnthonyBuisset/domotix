@@ -11,7 +11,7 @@ export const TimeRangeDropDown = ({ value, onChange }: Props) => {
   const items = Object.entries(DropdownOptions).map(([value, label]) => ({ value, label }));
   const selected = items.find(item => item.value === value)?.label;
   return (
-    <Dropdown>
+    <Dropdown className="bg-background text-foreground drop-shadow-2xl dark">
       <DropdownTrigger>
         <Button>{selected}</Button>
       </DropdownTrigger>
