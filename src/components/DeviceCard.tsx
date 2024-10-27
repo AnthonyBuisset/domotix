@@ -9,7 +9,7 @@ import {
   RiSignalWifiFill,
 } from "react-icons/ri";
 import classNames from "classnames";
-import { Card, CardProps, Tooltip } from "@nextui-org/react";
+import { Card, CardBody, CardProps, Tooltip } from "@nextui-org/react";
 
 type Props = CardProps & {
   linkQuality?: string | number;
@@ -34,7 +34,7 @@ export const DeviceCard = ({ linkQuality, battery, className, children, ...rest 
         </Tooltip>
       )}
     </div>
-    <div className="h-full w-full">{children}</div>
+    <CardBody>{children}</CardBody>
   </Card>
 );
 

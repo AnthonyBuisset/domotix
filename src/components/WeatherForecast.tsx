@@ -1,20 +1,20 @@
 import { format } from "../hooks/useNow";
 import { useWeatherForecast } from "../hooks/useWeatherForecast";
-import { DeviceCard } from "./DeviceCard.tsx";
 import thermometerWarmer from "/assets/weather-icons/fill/thermometer-warmer.svg";
 import thermometerCooler from "/assets/weather-icons/fill/thermometer-colder.svg";
 import wind from "/assets/weather-icons/fill/wind.svg";
+import { Card, CardBody } from "@nextui-org/react";
 
 export const WeatherForecast = () => {
   const forecast = useWeatherForecast();
 
   return (
-    <div className="flex  w-full grow flex-col gap-2 overflow-y-auto md:w-fit lg:h-fit lg:flex-row">
+    <div className="flex w-full grow flex-col gap-2 md:w-fit lg:h-fit lg:flex-row">
       {forecast?.daily.slice(1).map(f => {
         const { weekday, day, month } = format(f.date);
         return (
-          <DeviceCard key={f.dt} className="lg:h-fit">
-            <div className="flex flex-row items-center justify-between gap-4 lg:flex-col">
+          <Card key={f.dt} className="lg:h-fit">
+            <CardBody className="flex flex-row items-center justify-between gap-4 lg:flex-col">
               <div className="flex flex-col items-center gap-1 sm:flex-row lg:flex-col">
                 <span>{weekday}</span>
                 <span>{day}</span>
@@ -35,8 +35,8 @@ export const WeatherForecast = () => {
                 <img src={wind} className="w-8" />
                 {(f.wind_speed * 3.6).toFixed(0)} km/h
               </div>
-            </div>
-          </DeviceCard>
+            </CardBody>
+          </Card>
         );
       })}
     </div>
