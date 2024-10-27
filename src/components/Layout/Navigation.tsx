@@ -121,7 +121,7 @@ export const Navigation = () => {
       <NavbarContent justify="center" className="hidden sm:flex">
         {items.map(i =>
           "items" in i ? (
-            <Dropdown key={i.name} className="bg-background text-foreground drop-shadow-2xl dark">
+            <Dropdown key={i.name} className="bg-background text-foreground drop-shadow-2xl">
               <NavbarItem>
                 <NavButton {...i} />
               </NavbarItem>
@@ -139,7 +139,7 @@ export const Navigation = () => {
         )}
       </NavbarContent>
 
-      <NavbarMenu className="bg-background text-foreground drop-shadow-2xl dark">
+      <NavbarMenu className="bg-background text-foreground drop-shadow-2xl">
         {items.map(i =>
           "items" in i ? (
             <NavbarMenuItem key={i.name}>

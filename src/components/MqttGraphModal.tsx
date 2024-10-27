@@ -50,7 +50,7 @@ export default function MqttGraphModal({
   const { data } = useInfluxDbQuery<Stat>(query.toString());
 
   return (
-    <Modal {...rest} className={classNames("bg-background text-foreground drop-shadow-2xl dark", className)}>
+    <Modal {...rest} className={classNames("bg-background text-foreground drop-shadow-2xl", className)}>
       <ModalContent>
         <ModalHeader className="flex items-center justify-between px-8">
           {title}

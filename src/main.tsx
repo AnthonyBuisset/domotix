@@ -6,20 +6,20 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Connector } from "mqtt-react-hooks";
 import config from "./config.ts";
 import { App } from "./App.tsx";
-import { WeatherForecastProvider } from "./hooks/useWeatherForecast.tsx";
 import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Providers } from "./providers.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Connector brokerUrl={config.MQTT_BROKER_URL}>
       <Router>
-        <WeatherForecastProvider>
-          <main className="h-screen overflow-auto bg-background text-foreground dark">
+        <main className="h-screen overflow-auto bg-background text-foreground">
+          <Providers>
             <App />
-          </main>
-          <ToastContainer theme="dark" transition={Flip} />
-        </WeatherForecastProvider>
+            <ToastContainer transition={Flip} />
+          </Providers>
+        </main>
       </Router>
     </Connector>
   </React.StrictMode>
