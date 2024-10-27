@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Connector } from "mqtt-react-hooks";
 import config from "./config.ts";
 import { App } from "./App.tsx";
-import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Providers } from "./providers.tsx";
 
@@ -17,7 +16,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <main className="h-screen overflow-auto bg-background text-foreground">
           <Providers>
             <App />
-            <ToastContainer transition={Flip} />
           </Providers>
         </main>
       </Router>
