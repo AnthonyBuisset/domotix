@@ -1,20 +1,31 @@
-import { InfluxDB } from "@influxdata/influxdb-client-browser";
+import { InfluxDB, QueryApi } from "@influxdata/influxdb-client-browser";
 import { useEffect, useState } from "react";
-import config from "../config";
 import { toast } from "react-toastify";
+import config from "../config";
 
-const API = new InfluxDB({ url: config.INFLUXDB_URL, token: config.INFLUXDB_API_TOKEN }).getQueryApi(
-  config.INFLUXDB_ORG
-);
+function getQueryApi(): QueryApi | null {
+  if (!config.INFLUXDB_URL || !config.INFLUXDB_API_TOKEN || !config.INFLUXDB_ORG) {
+    return null;
+  }
+  return new InfluxDB({ url: config.INFLUXDB_URL, token: config.INFLUXDB_API_TOKEN }).getQueryApi(
+    config.INFLUXDB_ORG
+  );
+}
 
 export default function useInfluxDbQuery<R>(query: string): { data?: R[]; loading: boolean } {
   const [data, setData] = useState<R[]>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const api = getQueryApi();
+    if (!api) {
+      toast.error("InfluxDB n'est pas configuré", { toastId: "influxdb-not-configured" });
+      return;
+    }
+
     const rows: R[] = [];
     setLoading(true);
-    API.queryRows(query, {
+    api.queryRows(query, {
       next(row, tableMeta) {
         rows.push(tableMeta.toObject(row) as R);
       },
